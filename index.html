@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌱 Agro Habert PRO v1.0</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Agro Habert PRO">
+<meta name="application-name" content="Agro Habert PRO">
+<meta name="theme-color" content="#080d1a">
+<script>
+// Gera ícone dinâmico para tela inicial do celular
+(function(){
+  try {
+    var c=document.createElement('canvas');
+    c.width=192;c.height=192;
+    var ctx=c.getContext('2d');
+    // fundo
+    var r=22*192/100;
+    ctx.beginPath();ctx.moveTo(r,0);ctx.lineTo(192-r,0);
+    ctx.quadraticCurveTo(192,0,192,r);ctx.lineTo(192,192-r);
+    ctx.quadraticCurveTo(192,192,192-r,192);ctx.lineTo(r,192);
+    ctx.quadraticCurveTo(0,192,0,192-r);ctx.lineTo(0,r);
+    ctx.quadraticCurveTo(0,0,r,0);ctx.closePath();
+    ctx.fillStyle='#080d1a';ctx.fill();
+    ctx.fillStyle='#4ade8022';ctx.fill();
+    // emoji
+    ctx.font='120px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('🌱',96,100);
+    var url=c.toDataURL('image/png');
+    var l=document.createElement('link');
+    l.rel='apple-touch-icon';l.href=url;
+    document.head.appendChild(l);
+    var l2=document.createElement('link');
+    l2.rel='icon';l2.type='image/png';l2.href=url;
+    document.head.appendChild(l2);
+  } catch(e){}
+})();
+</script>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23080d1a'/%3E%3Crect width='100' height='100' rx='22' fill='%234ade8022'/%3E%3Ccircle cx='50' cy='50' r='48' fill='none' stroke='%234ade8055' stroke-width='1.5'/%3E%3Ctext y='.9em' font-size='62' x='18' fill='white'%3E🌱%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23080d1a'/%3E%3Ctext y='.9em' font-size='72' x='12'%3E🌱%3C/text%3E%3C/svg%3E">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#080d1a;color:#f1f5f9;font-family:'IBM Plex Mono',monospace;min-height:100vh}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0a0f1a}::-webkit-scrollbar-thumb{background:#1e293b;border-radius:4px}
+  input,select{font-family:'IBM Plex Mono',monospace}
+  select option{background:#0f172a;color:#f1f5f9}
+  input[type=number]::-webkit-inner-spin-button{opacity:.4}
+
+  /* HEADER */
+  .header{border-bottom:1px solid #1e293b;padding:14px 20px;display:flex;align-items:center;gap:12;flex-wrap:wrap;gap:12px}
+  .header-logo{width:36px;height:36px;border-radius:10px;background:#4ade8022;border:1px solid #4ade8044;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .header-title{font-size:14px;font-weight:700;color:#f1f5f9;letter-spacing:-.01em}
+  .header-sub{font-size:9px;color:#475569;letter-spacing:.1em;margin-top:2px}
+  .header-info{margin-left:auto;display:flex;gap:20px;flex-wrap:wrap}
+  .header-field{text-align:right}
+  .header-field-label{font-size:9px;color:#475569;text-transform:uppercase;letter-spacing:.08em}
+  .header-field-val{font-size:12px;color:#94a3b8}
+
+  /* NAV */
+  .nav{border-bottom:1px solid #1e293b;padding:10px 20px;display:flex;gap:6px;overflow-x:auto;align-items:center}
+  .nav-btn{padding:12px 18px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;border:none;outline:none;font-family:inherit;display:flex;align-items:center;gap:7px;transition:all .2s;white-space:nowrap;background:transparent;color:#64748b}
+  .nav-btn.active{background:#4ade80;color:#0a0f1a}
+
+  /* MAIN */
+  .main{max-width:900px;margin:0 auto;padding:20px 16px}
+
+  /* CARDS */
+  .card{background:#131c2e;border:1px solid #1e293b;border-radius:16px;padding:20px 18px;margin-bottom:16px}
+  .card-green{background:#0d1f10;border:1px solid #1a3322}
+
+  /* SECTION TITLE */
+  .sec-title{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .sec-title h2{font-size:13px;font-weight:700;color:#4ade80;text-transform:uppercase;letter-spacing:.1em}
+  .sec-title-line{flex:1;height:1px;background:#1e293b}
+
+  /* GRID */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+  .grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px}
+  .grid-src{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+  /* FIELDS */
+  .field{margin-bottom:13px}
+  .field-label{display:block;font-size:12px;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+  .field-row{display:flex;align-items:center;gap:8px}
+  .field-unit{font-size:13px;color:#94a3b8;white-space:nowrap;font-weight:600}
+  input[type=number],input[type=text]{flex:1;width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#f1f5f9;padding:8px 11px;font-size:13px;outline:none;transition:border-color .2s;font-family:inherit}
+  input:focus{border-color:#4ade80}
+  select{width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;color:#f1f5f9;padding:8px 11px;font-size:13px;outline:none;cursor:pointer}
+
+  /* BADGE */
+  .badge{border-radius:6px;padding:2px 9px;font-size:10px;font-weight:700;letter-spacing:.04em;white-space:nowrap}
+
+  /* RESULT CARDS */
+  .res-card{background:#0f172a;border:1px solid #1e293b;border-radius:12px;padding:14px 16px;margin-bottom:0}
+  .res-card.alert{border-color:#ef444433}
+  .res-card-title{font-size:13px;color:#cbd5e1;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+  .res-card-val{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+  .res-card-num{font-size:21px;font-weight:700;color:#4ade80}
+  .res-card-num.blue{color:#60a5fa}
+  .res-card-num.pink{color:#f472b6}
+  .res-card-num.amber{color:#fbbf24}
+  .res-card-unit{font-size:12px;color:#94a3b8}
+  .res-card-sub{font-size:11px;color:#94a3b8;margin-top:4px}
+
+  /* SUMMARY BAR */
+  .summary-bar{background:#0f172a;border-radius:10px;padding:11px 14px;display:flex;gap:18px;flex-wrap:wrap;margin-top:4px}
+  .summary-item span.lbl{font-size:12px;color:#94a3b8;font-weight:600}
+  .summary-item span.val{font-size:13px;color:#f1f5f9;font-weight:700}
+
+  /* FORMULA BOX */
+  .formula-box{background:#0f172a;border-radius:10px;padding:11px 14px;margin-top:8px}
+  .formula-label{font-size:12px;color:#94a3b8;margin-bottom:5px;font-weight:600}
+  .formula-text{font-size:13px;color:#94a3b8}
+  .formula-result{color:#4ade80;font-weight:700}
+
+  /* FONTE CARDS */
+  .fonte-card{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:12px 14px}
+  .fonte-label{font-size:13px;color:#cbd5e1;font-weight:700;margin-bottom:6px}
+
+  /* CULTURE GRID */
+  .cultura-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:5px}
+  .cultura-btn{background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:8px 10px;color:#94a3b8;font-size:10px;cursor:pointer;text-align:left;font-family:inherit;font-weight:400;transition:all .2s}
+  .cultura-btn.active{background:#4ade8022;border-color:#4ade80;color:#4ade80;font-weight:700}
+
+  /* INFO BOX */
+  .info-box{background:#0f172a;border-radius:12px;padding:14px 16px;margin-bottom:14px}
+  .info-row{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:10px}
+  .info-kv span.k{font-size:10px;color:#64748b}
+  .info-kv span.v{font-size:12px;color:#4ade80}
+  .info-kv span.v.blue{color:#60a5fa}
+  .info-kv span.v.pink{color:#f472b6}
+  .adub-box{background:#131c2e;border-radius:8px;padding:9px 12px}
+  .adub-label{font-size:9px;color:#475569;margin-bottom:3px;text-transform:uppercase;letter-spacing:.07em}
+  .adub-val{font-size:12px;color:#fbbf24}
+
+  /* MINI CARD */
+  .mini-card{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:12px 14px}
+  .mini-card-label{font-size:13px;color:#cbd5e1;font-weight:700;margin-bottom:4px}
+  .mini-card-val{font-size:18px;font-weight:700;color:#f1f5f9}
+  .mini-card-unit{font-size:11px;color:#94a3b8}
+
+  /* REF BOX */
+  .ref-box{font-size:10px;color:#4ade8099;margin-bottom:3px}
+  .ref-text{font-size:12px;color:#6b9b78;line-height:1.8}
+
+
+  /* GPS */
+  .gps-btn{background:#0f172a;border:1px solid #334155;border-radius:8px;color:#60a5fa;padding:9px 14px;font-size:13px;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:7px;font-weight:600;transition:all .2s;white-space:nowrap}
+  .gps-btn:hover{border-color:#60a5fa;background:#1e293b}
+  .gps-result{background:#0f172a;border:1px solid #1e3a5f;border-radius:8px;padding:10px 14px;margin-top:8px;font-size:12px;color:#93c5fd;display:none}
+  /* MICRO */
+  .micro-card{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:12px 14px}
+  .micro-label{font-size:12px;color:#cbd5e1;font-weight:700;margin-bottom:5px}
+  .micro-status-ok{color:#22c55e;font-size:12px;font-weight:700}
+  .micro-status-low{color:#f97316;font-size:12px;font-weight:700}
+  .micro-status-vlow{color:#ef4444;font-size:12px;font-weight:700}
+  .micro-dose{font-size:12px;color:#94a3b8;margin-top:4px;line-height:1.5}
+  /* CALC DOSES */
+  .calc-result{background:#0f172a;border:1px solid #4ade8033;border-radius:10px;padding:14px 16px;margin-top:10px}
+  .calc-result-label{font-size:12px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+  .calc-result-val{font-size:22px;font-weight:700;color:#4ade80}
+  /* RECEITUARIO */
+  .praga-btn{background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:8px 12px;color:#94a3b8;font-size:11px;cursor:pointer;text-align:left;font-family:inherit;font-weight:600;transition:all .2s;margin-bottom:4px;width:100%}
+  .praga-btn.active,.praga-btn:hover{background:#1e293b;border-color:#4ade80;color:#4ade80}
+  .def-card{background:#0f172a;border-left:3px solid #4ade80;border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:8px}
+  .def-nome{font-size:13px;font-weight:700;color:#f1f5f9;margin-bottom:3px}
+  .def-dose{font-size:11px;color:#fbbf24;margin-bottom:2px}
+  .def-obs{font-size:12px;color:#94a3b8;line-height:1.6}
+  .aviso-rec{background:#451a03;border:1px solid #92400e;border-radius:8px;padding:12px 16px;font-size:13px;color:#fcd34d;margin-bottom:12px;line-height:1.7}
+  /* HIDDEN */
+  .hidden{display:none}
+
+  /* PDF BUTTON */
+  .pdf-btn{margin-left:auto;padding:12px 20px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:700;border:none;outline:none;font-family:inherit;display:flex;align-items:center;gap:7px;transition:all .2s;white-space:nowrap;background:#4ade80;color:#0a0f1a;letter-spacing:.04em;flex-shrink:0}
+  .pdf-btn:hover{background:#86efac;transform:translateY(-1px);box-shadow:0 4px 16px #4ade8044}
+  .pdf-btn:active{transform:translateY(0)}
+
+  @media(max-width:600px){
+    .grid2{grid-template-columns:1fr}
+    .header-info{display:none}
+    .grid-src{grid-template-columns:1fr}
+  }
+
+  /* ═══════ ESTILOS DE IMPRESSÃO / PDF ═══════ */
+  @media print {
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    body{background:#fff!important;color:#1a1a2e!important;font-family:'IBM Plex Mono',monospace}
+    .header,.nav,.pdf-btn{display:none!important}
+    .main{max-width:100%!important;padding:0!important}
+    .hidden{display:block!important}
+    #tab-cultura .card:last-child{display:none!important}
+
+    /* Seções do PDF */
+    .pdf-section{display:block!important}
+    .pdf-page-break{page-break-before:always}
+
+    /* Cards brancos */
+    .card{background:#f8fafc!important;border:1px solid #e2e8f0!important;border-radius:8px!important;padding:14px!important;margin-bottom:10px!important;break-inside:avoid}
+    .card-green{background:#f0fdf4!important;border:1px solid #bbf7d0!important}
+    .res-card,.fonte-card,.mini-card,.info-box,.formula-box,.summary-bar{background:#f1f5f9!important;border:1px solid #e2e8f0!important;border-radius:6px!important}
+
+    /* Textos escuros */
+    .res-card-title,.fonte-label,.field-label,.mini-card-label,.sec-title h2{color:#1e293b!important}
+    .res-card-unit,.mini-card-unit,.res-card-sub,.summary-item span.lbl,.formula-label,.formula-text,.ref-text,.ref-box{color:#475569!important}
+    .res-card-num{color:#166534!important}
+    .res-card-num.blue{color:#1d4ed8!important}
+    .res-card-num.pink{color:#9d174d!important}
+    .res-card-num.amber{color:#92400e!important}
+    .formula-result{color:#166534!important}
+    .sec-title h2{color:#166534!important}
+    .sec-title-line{background:#d1fae5!important}
+    .adub-val{color:#92400e!important}
+    .adub-box{background:#fffbeb!important;border:1px solid #fde68a!important}
+    .info-kv span.v{color:#166534!important}
+    .info-kv span.v.blue{color:#1d4ed8!important}
+    .info-kv span.v.pink{color:#9d174d!important}
+    .info-kv span.k{color:#475569!important}
+    .summary-item span.val{color:#1e293b!important}
+
+    /* Badges coloridos */
+    .badge{border:1px solid #ccc!important}
+
+    /* PDF Header especial */
+    .pdf-header{display:flex!important;align-items:center;justify-content:space-between;padding:16px 0;border-bottom:2px solid #166534;margin-bottom:18px}
+    .pdf-header-left h1{font-size:16px;font-weight:700;color:#166534;letter-spacing:.05em}
+    .pdf-header-left p{font-size:9px;color:#64748b;letter-spacing:.08em;margin-top:2px}
+    .pdf-header-right{text-align:right;font-size:11px;color:#475569}
+    .pdf-header-right strong{color:#1e293b;font-size:13px}
+    .pdf-logo{width:40px;height:40px;border-radius:8px;background:#dcfce7;border:1px solid #86efac;display:flex;align-items:center;justify-content:center;font-size:20px;margin-right:12px}
+
+    /* Grids no PDF */
+    .grid2,.grid3,.grid4{display:grid!important}
+    .grid3{grid-template-columns:repeat(3,1fr)!important;gap:8px!important}
+    .grid4{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}
+    .grid2{grid-template-columns:1fr 1fr!important;gap:8px!important}
+    .grid-src{grid-template-columns:1fr 1fr!important;gap:8px!important}
+    .cultura-grid,.cultura-btn{display:none!important}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <svg width="22" height="22" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 32 C18 32 18 18 18 14" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M18 20 C18 20 10 18 8 10 C8 10 16 9 20 16" fill="#4ade80" opacity="0.9"/>
+      <path d="M18 16 C18 16 24 12 28 5 C28 5 20 6 17 14" fill="#22c55e"/>
+      <circle cx="18" cy="32" r="2" fill="#4ade80" opacity="0.5"/>
+    </svg>
+  </div>
+  <div>
+    <div class="header-title">GUIA DE CAMPO — AGRO HABERT PRO v1.0</div>
+    <div class="header-sub">SISTEMA PROFISSIONAL — CERRADO / RORAIMA — Sousa &amp; Lobato (2004)</div>
+  </div>
+  <div class="header-info">
+    <div class="header-field">
+      <div class="header-field-label">Produtor</div>
+      <div class="header-field-val" id="hd-agricultor">—</div>
+    </div>
+    <div class="header-field">
+      <div class="header-field-label">Propriedade</div>
+      <div class="header-field-val" id="hd-propriedade">—</div>
+    </div>
+    <div class="header-field">
+      <div class="header-field-label">Amostra</div>
+      <div class="header-field-val" id="hd-amostra">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab('entrada')">🧪 Dados</button>
+  <button class="nav-btn" onclick="showTab('calagem')">🪨 Calagem</button>
+  <button class="nav-btn" onclick="showTab('npk')">🌿 P &amp; K</button>
+  <button class="nav-btn" onclick="showTab('cultura')">🌾 Cultura</button>
+  <button class="nav-btn" onclick="showTab('relacoes')">📊 Relações</button>
+  <button class="nav-btn" onclick="showTab('micro')">🔬 Micro</button>
+  <button class="nav-btn" onclick="showTab('gessagem')">🧂 Gesso</button>
+  <button class="nav-btn" onclick="showTab('calcdose')">⚗️ Doses</button>
+  <button class="nav-btn" onclick="showTab('receituario')">🌿 Defensivos</button>
+  <button class="pdf-btn" onclick="gerarPDF()">📄 Gerar PDF</button>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════════ TAB: ENTRADA -->
+<div id="tab-entrada">
+
+  <div class="card">
+    <div class="sec-title"><span>👤</span><h2>Identificação</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Agricultor / Produtor</label><input type="text" id="agricultor" placeholder="Nome do produtor" oninput="sync()"></div>
+      <div class="field"><label class="field-label">Propriedade / Sítio</label><input type="text" id="propriedade" placeholder="Nome da propriedade" oninput="sync()"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Número da Amostra</label><input type="text" id="num-amostra" placeholder="Ex: AM-001" oninput="sync()"></div>
+      <div class="field"><label class="field-label">Nome da Amostra / Talhão</label><input type="text" id="nome-amostra" placeholder="Ex: Talhão Norte" oninput="sync()"></div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label class="field-label">📅 Data da Coleta</label>
+        <input type="date" id="data-coleta" oninput="sync()" style="width:100%;color:#f1f5f9;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;-webkit-appearance:none;appearance:none;color-scheme:dark">
+      </div>
+      <div class="field">
+        <label class="field-label">📅 Data de Emissão</label>
+        <input type="date" id="data-emissao" oninput="sync()" style="width:100%;color:#f1f5f9;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;-webkit-appearance:none;appearance:none;color-scheme:dark">
+      </div>
+    </div>
+    <!-- GPS -->
+    <div class="field">
+      <label class="field-label">📍 Localização GPS do Ponto de Amostragem</label>
+      <div id="gps-aviso" style="background:#1e293b;border:1px solid #334155;border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:12px;color:#94a3b8;line-height:1.6;display:none"></div>
+      <div class="field-row">
+        <button class="gps-btn" onclick="capturarGPS()" id="gps-capture-btn">📡 Capturar GPS</button>
+        <input type="text" id="gps-coords" placeholder="Digite ou capture: -1.234567, -60.123456" style="flex:1">
+        <button class="gps-btn" onclick="abrirMaps()" style="background:#0f2a1a;border-color:#4ade80;color:#4ade80">🗺️ Maps</button>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+        <button onclick="abrirMapsParaCoordenada()" style="background:#1e3a5f;border:1px solid #3b82f6;border-radius:8px;color:#93c5fd;padding:9px 14px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:700">🌍 Pegar coordenada no Maps</button>
+        <button onclick="usarCoordManual()" style="background:#1a2e1a;border:1px solid #4ade80;border-radius:8px;color:#4ade80;padding:9px 14px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:700">✏️ Digitar manualmente</button>
+      </div>
+      <div style="margin-top:6px;font-size:11px;color:#475569;line-height:1.5">
+        💡 Se o GPS nao funcionar: use <strong style="color:#93c5fd">Pegar coordenada no Maps</strong> — ele abre o Google Maps ja na sua localizacao e preenche automaticamente.
+      </div>
+      <div class="gps-result" id="gps-result"></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Área do Talhão da Amostra</label><div class="field-row"><input type="number" id="area" value="0" min="0.1" step="0.5" oninput="calc()"><span class="field-unit">ha</span></div></div>
+      <div class="field"><label class="field-label">Cultura Principal</label>
+        <select id="cultura-sel" onchange="calc()">
+          <option>ABÓBORA</option><option>ABACATE</option><option>ABACAXI</option>
+          <option>ACEROLA</option><option>AÇAÍ</option><option>ALFACE</option>
+          <option>ALGODÃO</option><option>AMENDOIM</option><option>ARROZ SEQUEIRO</option>
+          <option>ARROZ IRRIGADO</option><option>BANANA</option><option>BATATA-DOCE</option>
+          <option>BETERRABA</option><option>CACAU</option><option>CAFÉ</option>
+          <option>CAJU</option><option>CANA-DE-AÇÚCAR</option><option>CEBOLINHA</option>
+          <option>CENOURA</option><option>COCO</option><option>COENTRO</option>
+          <option>COUVE</option><option>EUCALIPTO</option><option>FEIJÃO</option>
+          <option>GIRASSOL</option><option>INHAME (CARÁ)</option><option>LARANJA</option>
+          <option>LIMÃO</option><option>MAMÃO</option><option>MAMADEIRA (MAMÃO PAPAIA)</option>
+          <option>MANDIOCA</option><option>MARACUJÁ</option><option>MELANCIA</option>
+          <option>MELÃO</option><option>MILHO</option><option>PASTAGEM</option>
+          <option>PIMENTÃO</option><option>PIMENTA DE CHEIRO</option><option>PIMENTA ARDOSA</option>
+          <option>PUPUNHA</option><option>SOJA</option><option>SORGO</option>
+          <option selected>TOMATE</option><option>TRIGO</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><span>🧪</span><h2>Macronutrientes &amp; pH</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">pH (H₂O)</label><input type="number" id="pH" value="0" min="3" max="9" step="0.1" oninput="calc()"></div>
+      <div class="field" style="display:flex;align-items:center;padding-top:20px"><span id="badge-ph" class="badge"></span></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Fósforo — P</label><div class="field-row"><input type="number" id="P" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+      <div class="field" style="display:flex;align-items:center;padding-top:20px"><span id="badge-p" class="badge"></span></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Potássio — K</label><div class="field-row"><input type="number" id="K" value="0" min="0" step="0.01" oninput="calc()"><span class="field-unit">cmolc/dm³</span></div></div>
+      <div class="field"><label class="field-label">Sódio — Na⁺</label><div class="field-row"><input type="number" id="Na" value="0" min="0" step="0.01" oninput="calc()"><span class="field-unit">cmolc/dm³</span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Cálcio — Ca²⁺</label><div class="field-row"><input type="number" id="Ca" value="0" min="0" step="0.01" oninput="calc()"><span class="field-unit">cmolc/dm³</span></div></div>
+      <div class="field"><label class="field-label">Magnésio — Mg²⁺</label><div class="field-row"><input type="number" id="Mg" value="0" min="0" step="0.01" oninput="calc()"><span class="field-unit">cmolc/dm³</span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Alumínio — Al³⁺</label><div class="field-row"><input type="number" id="Al" value="0" min="0" step="0.01" oninput="calc()"><span class="field-unit">cmolc/dm³</span></div></div>
+      <div class="field"><label class="field-label">Acidez Potencial — H+Al</label><div class="field-row"><input type="number" id="HpAl" value="0" min="0" step="0.01" oninput="calc()"><span class="field-unit">cmolc/dm³</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><span>🏔️</span><h2>Textura &amp; Matéria Orgânica</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Areia</label><div class="field-row"><input type="number" id="areia" value="0" min="0" max="100" step="0.1" oninput="calc()"><span class="field-unit">%</span></div></div>
+      <div class="field"><label class="field-label">Silte</label><div class="field-row"><input type="number" id="silte" value="0" min="0" max="100" step="0.1" oninput="calc()"><span class="field-unit">%</span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Argila</label><div class="field-row"><input type="number" id="argila" value="0" min="0" max="100" step="0.1" oninput="calc()"><span class="field-unit">%</span></div></div>
+      <div class="field"><label class="field-label">Matéria Orgânica</label><div class="field-row"><input type="number" id="mo" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">g/dm³</span></div></div>
+    </div>
+    <!-- Carbono Orgânico direto -->
+    <div class="grid2" style="margin-top:4px">
+      <div class="field"><label class="field-label">Carbono Orgânico (CO) — se disponível</label><div class="field-row"><input type="number" id="co-direto" value="0" min="0" step="0.01" oninput="calc()" placeholder="0 = calcular de MO"><span class="field-unit">g/dm³</span></div></div>
+      <div class="field"><label class="field-label">Enxofre — S</label><div class="field-row"><input type="number" id="S" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+    </div>
+    <div class="summary-bar">
+      <div class="summary-item" style="flex-direction:column;align-items:flex-start;gap:3px">
+  <span class="lbl">Classificação:</span>
+  <span id="sum-classe" class="badge" style="background:#60a5fa22;color:#60a5fa;border:1px solid #60a5fa55;font-size:12px"></span>
+  <span id="sum-textura" style="font-size:12px;color:#94a3b8;font-weight:600"></span>
+</div>
+      <div class="summary-item"><span class="lbl">CO: </span><span id="sum-co" class="val"></span><span class="lbl"> g/dm³</span></div>
+      <div class="summary-item"><span class="lbl">SB: </span><span id="sum-sb" class="val"></span><span class="lbl"> cmolc</span></div>
+      <div class="summary-item"><span class="lbl">CTC: </span><span id="sum-ctc" class="val"></span><span class="lbl"> cmolc</span></div>
+      <div class="summary-item"><span class="lbl">V%: </span><span id="sum-v" class="val"></span></div>
+      <div class="summary-item"><span class="lbl">m%: </span><span id="sum-m" class="val"></span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><span>🔬</span><h2>Micronutrientes</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Zinco — Zn</label><div class="field-row"><input type="number" id="Zn" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+      <div class="field"><label class="field-label">Boro — B</label><div class="field-row"><input type="number" id="B" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Manganês — Mn</label><div class="field-row"><input type="number" id="Mn" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+      <div class="field"><label class="field-label">Cobre — Cu</label><div class="field-row"><input type="number" id="Cu" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Ferro — Fe</label><div class="field-row"><input type="number" id="Fe" value="0" min="0" step="0.1" oninput="calc()"><span class="field-unit">mg/dm³</span></div></div>
+      <div class="field" style="display:flex;align-items:center;padding-top:20px"><span style="font-size:10px;color:#475569">Acesse aba 🔬 Micro para diagnóstico completo</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><span>⚙️</span><h2>Parâmetros do Calcário</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">PRNT do Calcário</label><div class="field-row"><input type="number" id="prnt" value="95" min="1" max="100" step="1" oninput="calc()"><span class="field-unit">%</span></div></div>
+      <div class="field"><label class="field-label">Profundidade de Incorporação</label><div class="field-row"><input type="number" id="profund" value="20" min="5" max="40" step="5" oninput="calc()"><span class="field-unit">cm</span></div></div>
+    </div>
+    <div class="field"><label class="field-label">Aplicação (% da área)</label><div class="field-row"><input type="number" id="aplic" value="100" min="1" max="100" step="5" oninput="calc()"><span class="field-unit">%</span></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: CALAGEM -->
+<div id="tab-calagem" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>🪨</span><h2>Necessidade de Calcário</h2><div class="sec-title-line"></div></div>
+    <div class="grid3">
+      <div class="res-card"><div class="res-card-title">Soma de Bases (SB)</div><div class="res-card-val"><span id="r-sb" class="res-card-num"></span><span class="res-card-unit">cmolc/dm³</span></div></div>
+      <div class="res-card"><div class="res-card-title">CTC Total</div><div class="res-card-val"><span id="r-ctc" class="res-card-num"></span><span class="res-card-unit">cmolc/dm³</span></div></div>
+      <div class="res-card"><div class="res-card-title">Sat. de Bases Atual (V%)</div><div class="res-card-val"><span id="r-v" class="res-card-num"></span><span class="res-card-unit">%</span></div></div>
+      <div class="res-card"><div class="res-card-title">Sat. de Al (m%)</div><div class="res-card-val"><span id="r-m" class="res-card-num"></span><span class="res-card-unit">%</span></div></div>
+    </div>
+    <div class="grid2" style="margin-top:10px">
+      <div class="res-card" id="r-nc-card"><div class="res-card-title" id="r-nc-title">NC — Calcário</div><div class="res-card-val"><span id="r-nc" class="res-card-num amber"></span><span class="res-card-unit">ton/ha</span><span id="r-nc-badge" class="badge" style="margin-left:4px"></span></div></div>
+      <div class="res-card"><div class="res-card-title" id="r-total-title">Quantidade Total</div><div class="res-card-val"><span id="r-total" class="res-card-num amber"></span><span class="res-card-unit">ton</span></div></div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">FÓRMULA: NC = ((V%des – V%atual) / 100) × CTC / (PRNT/100) × (Prof/20) × (Aplic/100)</div>
+      <div class="formula-text" id="formula-text"></div>
+    </div>
+  </div>
+  <div class="card card-green">
+    <div class="ref-box">📌 REFERÊNCIAS</div>
+    <div class="ref-text">Sousa &amp; Lobato (2004) — Cerrado: Correção do Solo e Adubação | Embrapa Cerrado | Embrapa Roraima</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: NPK -->
+<div id="tab-npk" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>🌿</span><h2>Recomendação de Fósforo (P)</h2><div class="sec-title-line"></div></div>
+    <div class="grid3">
+      <div class="res-card"><div class="res-card-title">P Atual</div><div class="res-card-val"><span id="np-p-atual" class="res-card-num blue"></span><span class="res-card-unit">mg/dm³</span><span id="np-p-badge" class="badge" style="margin-left:4px"></span></div></div>
+      <div class="res-card"><div class="res-card-title">P Desejado (cultura)</div><div class="res-card-val"><span id="np-p-des" class="res-card-num blue"></span><span class="res-card-unit">mg/dm³</span></div></div>
+      <div class="res-card"><div class="res-card-title">Diferença (P des. – atual)</div><div class="res-card-val"><span id="np-p-diff" class="res-card-num amber"></span><span class="res-card-unit">mg/dm³</span></div></div>
+      <div class="res-card"><div class="res-card-title">Necessidade P₂O₅ (ads.20%)</div><div class="res-card-val"><span id="np-p2o5" class="res-card-num amber"></span><span class="res-card-unit">kg/ha</span></div></div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="field-label" style="margin-bottom:8px">Fontes de Fósforo</div>
+      <div class="grid3">
+        <div class="fonte-card"><div class="fonte-label">Superfosfato Triplo (45%)</div><span id="np-sft" class="res-card-num blue" style="font-size:20px"></span><span class="res-card-unit"> kg/ha</span></div>
+        <div class="fonte-card"><div class="fonte-label">Superfosfato Simples (18%)</div><span id="np-ssp" class="res-card-num blue" style="font-size:20px"></span><span class="res-card-unit"> kg/ha</span></div>
+        <div class="fonte-card"><div class="fonte-label">MAP (48% P₂O₅)</div><span id="np-map" class="res-card-num blue" style="font-size:20px"></span><span class="res-card-unit"> kg/ha</span></div>
+        <div class="fonte-card"><div class="fonte-label">Termofosfato (17%)</div><span id="np-termo" class="res-card-num blue" style="font-size:20px"></span><span class="res-card-unit"> kg/ha</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title"><span>🪨</span><h2>Recomendação de Potássio (K)</h2><div class="sec-title-line"></div></div>
+    <div class="grid3">
+      <div class="res-card"><div class="res-card-title">Saturação K Atual</div><div class="res-card-val"><span id="np-k-atual" class="res-card-num pink"></span><span class="res-card-unit">%</span><span id="np-k-badge" class="badge" style="margin-left:4px"></span></div></div>
+      <div class="res-card"><div class="res-card-title">Saturação K Desejada</div><div class="res-card-val"><span id="np-k-des" class="res-card-num pink"></span><span class="res-card-unit">%</span></div></div>
+      <div class="res-card"><div class="res-card-title">K₂O a Aplicar</div><div class="res-card-val"><span id="np-k2o" class="res-card-num pink"></span><span class="res-card-unit">kg/ha</span></div></div>
+    </div>
+    <div style="margin-top:14px">
+      <div class="field-label" style="margin-bottom:8px">Fontes de Potássio</div>
+      <div class="grid-src">
+        <div class="fonte-card"><div class="fonte-label">KCl (60% K₂O)</div><span id="np-kcl" class="res-card-num pink" style="font-size:22px"></span><span class="res-card-unit"> kg/ha</span></div>
+        <div class="fonte-card"><div class="fonte-label">K₂SO₄ (50% K₂O)</div><span id="np-kso4" class="res-card-num pink" style="font-size:22px"></span><span class="res-card-unit"> kg/ha</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: CULTURA -->
+<div id="tab-cultura" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>🌾</span><h2 id="cult-title">Recomendação</h2><div class="sec-title-line"></div></div>
+    <div class="info-box">
+      <div class="info-row">
+        <div class="info-kv"><span class="k">pH Ideal: </span><span class="v" id="c-ph-ideal"></span></div>
+        <div class="info-kv"><span class="k">V% Desejada: </span><span class="v" id="c-v-des"></span></div>
+        <div class="info-kv"><span class="k">P Desejado: </span><span class="v blue" id="c-p-des"></span></div>
+        <div class="info-kv"><span class="k">K% Desejado: </span><span class="v pink" id="c-k-des"></span></div>
+      </div>
+      <div style="font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:10px"><span style="color:#64748b">Obs: </span><span id="c-obs"></span></div>
+      <div class="adub-box"><div class="adub-label">Adubação de Referência</div><div class="adub-val" id="c-adub"></div></div>
+    </div>
+    <div class="grid3">
+      <div class="res-card" id="c-nc-card"><div class="res-card-title">NC para esta Cultura</div><div class="res-card-val"><span id="c-nc" class="res-card-num amber"></span><span class="res-card-unit">ton/ha</span><span id="c-nc-badge" class="badge" style="margin-left:4px"></span></div></div>
+      <div class="res-card"><div class="res-card-title">P₂O₅ Necessário</div><div class="res-card-val"><span id="c-p2o5" class="res-card-num blue"></span><span class="res-card-unit">kg/ha</span></div></div>
+      <div class="res-card"><div class="res-card-title">K₂O Necessário</div><div class="res-card-val"><span id="c-k2o" class="res-card-num pink"></span><span class="res-card-unit">kg/ha</span></div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sec-title"><span>📋</span><h2>Selecionar Cultura</h2><div class="sec-title-line"></div></div>
+    <div class="cultura-grid" id="cultura-btns"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: RELAÇÕES -->
+<div id="tab-relacoes" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>📊</span><h2>Relações Iônicas</h2><div class="sec-title-line"></div></div>
+    <div class="grid3">
+      <div class="res-card"><div class="res-card-title">Ca / Mg</div><div class="res-card-val"><span id="rel-camg" class="res-card-num"></span><span id="rel-camg-badge" class="badge" style="margin-left:6px"></span></div><div class="res-card-sub">Ideal: 2 a 5</div></div>
+      <div class="res-card"><div class="res-card-title">Ca / K</div><div class="res-card-val"><span id="rel-cak" class="res-card-num"></span><span id="rel-cak-badge" class="badge" style="margin-left:6px"></span></div><div class="res-card-sub">Ideal: 10 a 30</div></div>
+      <div class="res-card"><div class="res-card-title">Mg / K</div><div class="res-card-val"><span id="rel-mgk" class="res-card-num"></span><span id="rel-mgk-badge" class="badge" style="margin-left:6px"></span></div><div class="res-card-sub">Ideal: 3 a 10</div></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sec-title"><span>🌡️</span><h2>Resumo da Fertilidade</h2><div class="sec-title-line"></div></div>
+    <div class="grid4">
+      <div class="mini-card"><div class="mini-card-label">pH</div><div class="mini-card-val" id="sum2-ph"></div><div id="sum2-ph-badge" style="margin-top:4px"></div></div>
+      <div class="mini-card"><div class="mini-card-label">V%</div><div class="mini-card-val" id="sum2-v"></div><div id="sum2-v-badge" style="margin-top:4px"></div></div>
+      <div class="mini-card"><div class="mini-card-label">m%</div><div class="mini-card-val" id="sum2-m"></div><div id="sum2-m-badge" style="margin-top:4px"></div></div>
+      <div class="mini-card"><div class="mini-card-label">SB</div><div class="mini-card-val" id="sum2-sb" style="color:#4ade80"></div><div class="mini-card-unit">cmolc/dm³</div></div>
+      <div class="mini-card"><div class="mini-card-label">CTC</div><div class="mini-card-val" id="sum2-ctc" style="color:#60a5fa"></div><div class="mini-card-unit">cmolc/dm³</div></div>
+      <div class="mini-card"><div class="mini-card-label">P</div><div class="mini-card-val" id="sum2-p"></div><div id="sum2-p-badge" style="margin-top:4px"></div></div>
+      <div class="mini-card"><div class="mini-card-label">K sat.</div><div class="mini-card-val" id="sum2-ksat"></div><div id="sum2-k-badge" style="margin-top:4px"></div></div>
+      <div class="mini-card"><div class="mini-card-label">MO</div><div class="mini-card-val" id="sum2-mo" style="color:#fbbf24"></div><div class="mini-card-unit">g/dm³</div></div>
+    </div>
+  </div>
+  <div class="card card-green">
+    <div class="ref-box">📌 REFERÊNCIAS TÉCNICAS</div>
+    <div class="ref-text">
+      Sousa &amp; Lobato (2004) — Cerrado: Correção do Solo e Adubação<br>
+      Embrapa Cerrados — Planaltina, DF<br>
+      Embrapa Roraima — Costa, Ferreira &amp; Araújo (Apostila de Calagem e Adubação RR)<br>
+      Costa et al. (2011) — Calagem e Gessagem no Cerrado de Roraima
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════ TAB: MICRO -->
+<div id="tab-micro" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>🔬</span><h2>Diagnóstico de Micronutrientes — Cerrado/RR</h2><div class="sec-title-line"></div></div>
+    <div style="font-size:11px;color:#475569;margin-bottom:12px">Níveis críticos: Sousa &amp; Lobato (2004) — Cerrado. Inserir valores na aba Dados.</div>
+    <div class="grid3" id="micro-cards">
+      <!-- gerado por JS -->
+    </div>
+    <div class="card card-green" style="margin-top:12px">
+      <div class="ref-box">⚠️ ENXOFRE NO CERRADO</div>
+      <div class="ref-text">Solos arenosos de Roraima são frequentemente deficientes em S. Nível crítico: 10 mg/dm³. Fonte: sulfato de amônio (24% S), gesso agrícola (18% S), superfosfato simples (12% S). Dose corretiva: 20-40 kg/ha de S.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: GESSAGEM -->
+<div id="tab-gessagem" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>🧂</span><h2>Calculadora de Gessagem</h2><div class="sec-title-line"></div></div>
+    <div style="background:#1a0a02;border:1px solid #78350f;border-radius:8px;padding:10px 14px;font-size:11px;color:#fcd34d;margin-bottom:14px;line-height:1.6">
+      ℹ️ Gessagem recomendada quando: Al³⁺ &gt; 0,3 cmolc/dm³ ou m% &gt; 30% ou Ca²⁺ &lt; 0,5 cmolc/dm³ nas camadas subsuperficiais. O gesso não corrige pH, mas reduz Al tóxico em profundidade e fornece Ca e S às raízes.
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Teor de Argila do Solo</label><div class="field-row"><input type="number" id="g-argila" value="20" min="0" max="100" step="1" oninput="calcGesso()"><span class="field-unit">%</span></div></div>
+      <div class="field"><label class="field-label">Área do Talhão</label><div class="field-row"><input type="number" id="g-area" value="1" min="0.1" step="0.5" oninput="calcGesso()"><span class="field-unit">ha</span></div></div>
+    </div>
+    <div class="field"><label class="field-label">Necessidade de Calagem (NC calculada)</label><div class="field-row"><input type="number" id="g-nc" value="0" min="0" step="0.1" oninput="calcGesso()"><span class="field-unit">ton/ha</span></div></div>
+    <div id="gesso-results" class="grid3" style="margin-top:6px"><!-- JS --></div>
+    <div class="card card-green" style="margin-top:12px">
+      <div class="ref-box">📌 FÓRMULA</div>
+      <div class="ref-text">Dose de gesso (kg/ha) = %argila × 50 (solo arenoso a médio) ou × 60 (argiloso). Dose mínima: 500 kg/ha. Aplicar a lanço, sem incorporar. Sousa &amp; Lobato (2004).</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: CALC DOSES -->
+<div id="tab-calcdose" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>⚗️</span><h2>Calculadora de Doses — Defensivos e Fertilizantes</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Dose Recomendada</label><div class="field-row"><input type="number" id="cd-dose" value="100" min="0" step="1" oninput="calcDose()"><span class="field-unit" id="cd-unit-lbl">kg/ha ou L/ha</span></div></div>
+      <div class="field"><label class="field-label">Tipo de Produto</label>
+        <select id="cd-tipo" onchange="calcDose()">
+          <option value="solido">Sólido (kg/ha → g ou kg)</option>
+          <option value="liquido">Líquido (L/ha → mL ou L)</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Área Total</label><div class="field-row"><input type="number" id="cd-area" value="1" min="0.01" step="0.1" oninput="calcDose()"><span class="field-unit">ha</span></div></div>
+      <div class="field"><label class="field-label">Volume da Bomba/Pulverizador</label>
+        <select id="cd-bomba" onchange="calcDose()">
+          <option value="20">Costal 20 L</option>
+          <option value="16">Costal 16 L</option>
+          <option value="5">Costal 5 L</option>
+          <option value="200">Pulverizador 200 L</option>
+          <option value="400">Pulverizador 400 L</option>
+          <option value="600">Pulverizador 600 L</option>
+          <option value="800">Pulverizador 800 L</option>
+          <option value="1000">Pulverizador 1000 L</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Volume de Calda (L/ha)</label><div class="field-row"><input type="number" id="cd-calda" value="200" min="1" step="10" oninput="calcDose()"><span class="field-unit">L/ha</span></div></div>
+      <div class="field"><label class="field-label">Espaçamento entre Linhas</label><div class="field-row"><input type="number" id="cd-esp" value="0" min="0" step="0.1" oninput="calcDose()" placeholder="0 = sem sulco"><span class="field-unit">m</span></div></div>
+    </div>
+    <div id="dose-results" style="margin-top:6px"><!-- JS --></div>
+  </div>
+
+  <!-- Adubação por cova/sulco -->
+  <div class="card">
+    <div class="sec-title"><span>🌱</span><h2>Adubação por Cova / Sulco / Saco</h2><div class="sec-title-line"></div></div>
+    <div class="field"><label class="field-label">Tipo de Adubo / Fertilizante</label><input type="text" id="cs-tipo" placeholder="Ex: NPK 04-14-08, Ureia, KCl, Superfosfato Triplo..." style="background:#0f172a;border:1px solid #334155;border-radius:8px;color:#f1f5f9;padding:8px 11px;font-size:13px;width:100%;font-family:inherit"></div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Quantidade Recomendada</label><div class="field-row"><input type="number" id="cs-dose" value="100" min="0" step="1" oninput="calcCova()"><span class="field-unit">kg/ha</span></div></div>
+      <div class="field"><label class="field-label">Peso do Saco</label>
+        <select id="cs-saco" onchange="calcCova()">
+          <option value="50">50 kg</option>
+          <option value="25">25 kg</option>
+          <option value="40">40 kg</option>
+          <option value="60">60 kg</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label class="field-label">Espaçamento Entrelinhas</label><div class="field-row"><input type="number" id="cs-el" value="1" min="0.1" step="0.1" oninput="calcCova()"><span class="field-unit">m</span></div></div>
+      <div class="field"><label class="field-label">Espaçamento entre Plantas</label><div class="field-row"><input type="number" id="cs-ep" value="0.5" min="0.1" step="0.1" oninput="calcCova()"><span class="field-unit">m</span></div></div>
+    </div>
+    <div id="cova-results" style="margin-top:6px"><!-- JS --></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════ TAB: RECEITUARIO -->
+<div id="tab-receituario" class="hidden">
+  <div class="card">
+    <div class="sec-title"><span>🌿</span><h2>Guia de Defensivos — Pragas e Doenças de RR</h2><div class="sec-title-line"></div></div>
+    <div class="aviso-rec">⚠️ AVISO LEGAL: Este guia é apenas referência técnica de campo. A aplicação de defensivos agrícolas exige <strong>Receituário Agronômico</strong> assinado por Engenheiro Agrônomo habilitado, conforme Lei 7.802/1989. Respeite os intervalos de carência e EPIs.</div>
+    <div class="grid2" style="gap:10px">
+      <div>
+        <div class="field-label" style="margin-bottom:8px">Selecionar Praga / Doença</div>
+        <div id="praga-lista"><!-- JS --></div>
+      </div>
+      <div id="praga-detalhe" style="min-height:200px">
+        <div style="color:#475569;font-size:12px;padding:20px;text-align:center">← Selecione uma praga ou doença</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+</div><!-- /main -->
+
+<script>
+const CULTURAS = [
+  {nome:"ABÓBORA",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Sensível à acidez. Solo bem drenado, textura leve a média. Prefere V% 60%, tolerando Al<1 cmolc. MO essencial no cerrado.",adub:"N: 60-100 kg/ha | P2O5: 80-120 kg/ha | K2O: 60-90 kg/ha | micronutrientes: B 1 kg/ha"},
+  {nome:"ABACATE",phIdeal:"5,5 a 6,5",vDes:55,pDes:12,kDes:3,obs:"Tolerante à acidez moderada. Solos profundos e bem drenados do cerrado. Responde bem à calagem leve e adubação K.",adub:"N: 80-120 kg/ha | P2O5: 50-70 kg/ha | K2O: 100-150 kg/ha | Zn: 2-3 kg/ha"},
+  {nome:"ABACAXI",phIdeal:"4,5 a 5,5",vDes:45,pDes:10,kDes:4,obs:"Tolerante à acidez - não elevar V% acima de 50%. Muito sensível ao Al >1 cmolc. Solo arenoso a médio. Cultura típica do cerrado RR.",adub:"N: 100-150 kg/ha | P2O5: 40-60 kg/ha | K2O: 200-300 kg/ha | B: 1-2 kg/ha"},
+  {nome:"ACEROLA",phIdeal:"5,5 a 6,5",vDes:55,pDes:12,kDes:3,obs:"Muito adaptada ao cerrado de Roraima. Tolera acidez moderada. Responde bem à calagem e K. Sensível à seca prolongada.",adub:"N: 80-120 kg/ha | P2O5: 50-70 kg/ha | K2O: 80-120 kg/ha | B: 1 kg/ha | Zn: 2 kg/ha"},
+  {nome:"AÇAÍ",phIdeal:"5,0 a 6,0",vDes:50,pDes:10,kDes:4,obs:"Adaptado ao cerrado de várzea de RR. Solo fértil com MO elevada. Exige K alto e Mg. Calagem leve - não exceder V% 55%.",adub:"N: 80-120 kg/ha | P2O5: 40-60 kg/ha | K2O: 150-200 kg/ha | Mg: 20-30 kg/ha"},
+  {nome:"ALFACE",phIdeal:"6,0 a 6,8",vDes:70,pDes:21,kDes:3,obs:"Exige pH mais elevado. Alta resposta à calagem no cerrado. Solo leve e bem preparado. Irrigação essencial em Roraima.",adub:"N: 80-100 kg/ha | P2O5: 80-100 kg/ha | K2O: 80-100 kg/ha | B: 0,5 kg/ha"},
+  {nome:"ALGODÃO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Boa adaptação ao cerrado de RR. pH 5,5-6,0 suficiente. Exige B e Zn. Alta resposta à calagem e gessagem em solos argilosos.",adub:"N: 80-120 kg/ha | P2O5: 60-90 kg/ha | K2O: 80-100 kg/ha | B: 1-2 kg/ha | Zn: 3-5 kg/ha"},
+  {nome:"ARROZ SEQUEIRO",phIdeal:"4,5 a 5,5",vDes:45,pDes:10,kDes:2,obs:"Tolerante à acidez - base da cultura de sequeiro no cerrado de RR. Não elevar V% acima de 50%. Al trocável até 1 cmolc tolerado.",adub:"N: 60-90 kg/ha | P2O5: 50-70 kg/ha | K2O: 40-60 kg/ha | Zn: 3 kg/ha"},
+  {nome:"ARROZ IRRIGADO",phIdeal:"5,0 a 6,0",vDes:50,pDes:14,kDes:2,obs:"Sistema alagado em várzeas de RR. Aplicar calcário antes do plantio. Zn é crítico em solos inundados do cerrado.",adub:"N: 80-100 kg/ha | P2O5: 50-70 kg/ha | K2O: 50-70 kg/ha | Zn: 3-5 kg/ha"},
+  {nome:"BANANA",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:4,obs:"Alta exigência em K - cultura muito importante em RR. Solo profundo e bem drenado. Calagem elevar V% 60%. Parcelar N e K.",adub:"N: 160-240 kg/ha | P2O5: 50-80 kg/ha | K2O: 300-500 kg/ha | B: 2 kg/ha | Zn: 3 kg/ha"},
+  {nome:"BATATA-DOCE",phIdeal:"5,0 a 6,0",vDes:50,pDes:12,kDes:3,obs:"Tolerante à acidez moderada. Solo leve e solto. Boa resposta ao K no cerrado. Não necessita calagem pesada.",adub:"N: 40-60 kg/ha | P2O5: 40-60 kg/ha | K2O: 80-120 kg/ha"},
+  {nome:"BETERRABA",phIdeal:"6,0 a 7,0",vDes:70,pDes:21,kDes:3,obs:"Exige pH elevado - calagem prioritária no cerrado. Sensível a pH baixo e Al. Solo fértil com boa irrigação em Roraima.",adub:"N: 80-100 kg/ha | P2O5: 80-100 kg/ha | K2O: 80-120 kg/ha | B: 1 kg/ha"},
+  {nome:"CACAU",phIdeal:"6,0 a 7,0",vDes:60,pDes:14,kDes:3,obs:"Cultivo promissor em RR. Solo profundo, fértil e bem drenado. Alta resposta ao K e B. Calagem elevar V% 60% nos primeiros anos.",adub:"N: 80-120 kg/ha | P2O5: 50-80 kg/ha | K2O: 100-150 kg/ha | B: 2 kg/ha | Mg: 20 kg/ha"},
+  {nome:"CAFÉ",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Cultura perene exigente no cerrado. Calagem parcelada recomendada. V% 60% meta. Zn e B críticos em solos arenosos de Roraima.",adub:"N: 120-200 kg/ha | P2O5: 60-80 kg/ha | K2O: 150-200 kg/ha | Zn: 3 kg/ha | B: 1-2 kg/ha"},
+  {nome:"CAJU",phIdeal:"5,0 a 6,0",vDes:45,pDes:10,kDes:3,obs:"Muito tolerante à acidez - não elevar V% acima de 50%. Adaptado ao cerrado arenoso de RR. Sensível ao excesso de calcário.",adub:"N: 50-80 kg/ha | P2O5: 30-50 kg/ha | K2O: 60-100 kg/ha | Zn: 2 kg/ha"},
+  {nome:"CANA-DE-AÇÚCAR",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Alta resposta à calagem no cerrado. Gessagem recomendada em solos argilosos de RR. Parcelar N e K na estação chuvosa.",adub:"N: 80-120 kg/ha | P2O5: 60-100 kg/ha | K2O: 100-150 kg/ha | S: 30 kg/ha"},
+  {nome:"CEBOLINHA",phIdeal:"5,5 a 6,5",vDes:60,pDes:18,kDes:3,obs:"Solo leve e bem preparado. Alta resposta à adubação orgânica no cerrado. Irrigação essencial. Manejo intensivo em RR.",adub:"N: 60-100 kg/ha | P2O5: 60-80 kg/ha | K2O: 60-80 kg/ha | MO alta recomendada"},
+  {nome:"CENOURA",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Solo solto e fundo, sem pedras. pH crítico para formação da raiz. No cerrado de RR elevar V% 60% e incorporar MO.",adub:"N: 60-80 kg/ha | P2O5: 60-80 kg/ha | K2O: 80-100 kg/ha | B: 1 kg/ha"},
+  {nome:"COCO",phIdeal:"5,5 a 7,0",vDes:60,pDes:14,kDes:4,obs:"Muito cultivado em RR. Alta exigência em K e Cl. Calagem elevar V% 60%. Parcelar N, K e Cl durante o ano. MO essencial.",adub:"N: 100-150 kg/ha | P2O5: 40-60 kg/ha | K2O: 200-300 kg/ha | Cl: 150 kg/ha | B: 1 kg/ha"},
+  {nome:"COENTRO",phIdeal:"5,5 a 6,5",vDes:60,pDes:18,kDes:3,obs:"Solo leve e fértil. Ciclo curto - aplicar adubação concentrada no plantio. Alta MO favorece produção em solos arenosos do cerrado.",adub:"N: 40-60 kg/ha | P2O5: 50-70 kg/ha | K2O: 40-60 kg/ha"},
+  {nome:"COUVE",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Boa adaptação ao cerrado de RR. Alta resposta ao N. Solo fértil e irrigado. Elevar V% 60% para máximo aproveitamento do N.",adub:"N: 100-150 kg/ha | P2O5: 60-80 kg/ha | K2O: 80-100 kg/ha | B: 1 kg/ha"},
+  {nome:"EUCALIPTO",phIdeal:"5,0 a 6,0",vDes:45,pDes:10,kDes:2,obs:"Tolerante à acidez do cerrado. V% 45-50% suficiente. Calagem melhora eficiência de N e P. Adubação de plantio essencial em RR.",adub:"N: 60-100 kg/ha | P2O5: 40-60 kg/ha | K2O: 40-60 kg/ha | B: 1 kg/ha"},
+  {nome:"FEIJÃO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Fixação de N bacteriana exige V% mínimo 60% no cerrado. pH crítico para Rhizobium. Al acima de 0,5 cmolc prejudicial em RR.",adub:"N: 20-30 kg/ha (arrancio) | P2O5: 70-100 kg/ha | K2O: 50-80 kg/ha | Zn: 3 kg/ha"},
+  {nome:"GIRASSOL",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Boa resposta ao B no cerrado. Solo profundo e drenado. Calagem elevar V% 60%. Tolerante ao estresse hídrico - potencial em RR.",adub:"N: 60-90 kg/ha | P2O5: 50-70 kg/ha | K2O: 60-80 kg/ha | B: 2-3 kg/ha"},
+  {nome:"INHAME (CARÁ)",phIdeal:"5,5 a 6,5",vDes:55,pDes:12,kDes:3,obs:"Solo solto e profundo. Boa resposta ao K e MO. Calagem leve no cerrado. Potencial produtivo em solos arenosos de Roraima.",adub:"N: 60-80 kg/ha | P2O5: 50-70 kg/ha | K2O: 80-120 kg/ha"},
+  {nome:"LARANJA",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Cultura perene - calagem + gessagem recomendada no cerrado. V% 60% meta. Zn e Mn críticos em solos argilosos de RR.",adub:"N: 100-150 kg/ha | P2O5: 40-60 kg/ha | K2O: 120-180 kg/ha | Zn: 3 kg/ha | Mn: 3 kg/ha"},
+  {nome:"LIMÃO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Cultura perene adaptada ao cerrado de RR. Calagem V% 60% para produção sustentável. B e Zn essenciais. Solo bem drenado.",adub:"N: 80-120 kg/ha | P2O5: 40-60 kg/ha | K2O: 100-150 kg/ha | B: 1 kg/ha | Zn: 3 kg/ha"},
+  {nome:"MAMÃO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Solo bem drenado e fértil. Sensível ao Al - elevar V% 60%. Muito sensível ao encharcamento. Alta exigência nutricional em RR.",adub:"N: 150-200 kg/ha | P2O5: 60-80 kg/ha | K2O: 200-300 kg/ha | B: 1-2 kg/ha | Zn: 3 kg/ha"},
+  {nome:"MAMADEIRA (MAMÃO PAPAIA)",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Variedade de ciclo curto muito comum em Roraima. Mesmos parâmetros do mamão. Solo leve e drenado. Parcelar adubação.",adub:"N: 120-180 kg/ha | P2O5: 50-70 kg/ha | K2O: 150-250 kg/ha | B: 1-2 kg/ha"},
+  {nome:"MANDIOCA",phIdeal:"5,0 a 6,0",vDes:50,pDes:10,kDes:3,obs:"Tolerante à acidez - cultura base do cerrado de RR. V% 50% suficiente. Calagem leve. Não exceder pH 6,5 - prejudica colheita.",adub:"N: 40-60 kg/ha | P2O5: 40-60 kg/ha | K2O: 60-90 kg/ha"},
+  {nome:"MARACUJÁ",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:4,obs:"Alta demanda por K e B no cerrado. Solo bem drenado. Calagem V% 60%. Parcelar K em 3 a 4 vezes. Muito cultivado em RR.",adub:"N: 120-150 kg/ha | P2O5: 60-80 kg/ha | K2O: 180-250 kg/ha | B: 2-3 kg/ha"},
+  {nome:"MELANCIA",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Cultura de grande expressão em RR. Solo arenoso e drenado. Calagem elevar V% 60%. Fruto exige K elevado e Ca adequado.",adub:"N: 80-100 kg/ha | P2O5: 60-80 kg/ha | K2O: 100-140 kg/ha | Ca: 3-4% sat | B: 1 kg/ha"},
+  {nome:"MELÃO",phIdeal:"6,0 a 6,8",vDes:65,pDes:14,kDes:3,obs:"Alta exigência em Ca e K. Solo fértil e irrigado. Calagem V% 65% para qualidade de fruto. Potencial elevado em RR.",adub:"N: 80-120 kg/ha | P2O5: 60-80 kg/ha | K2O: 120-160 kg/ha | Ca: 4% sat | B: 1 kg/ha"},
+  {nome:"MILHO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Principal cultura do cerrado de RR. V% 60% meta (Sousa & Lobato, 2004). Alta resposta à calagem e N. Zn crítico em solos arenosos.",adub:"N: 120-160 kg/ha | P2O5: 70-100 kg/ha | K2O: 80-100 kg/ha | Zn: 3-5 kg/ha"},
+  {nome:"PASTAGEM",phIdeal:"4,5 a 5,5",vDes:30,pDes:8,kDes:2,obs:"Brachiaria e Trachypogon nativos toleram acidez do cerrado. V% 30% para gramíneas tolerantes. Calagem leve + adubação de manutenção.",adub:"N: 50-100 kg/ha | P2O5: 30-50 kg/ha | K2O: 40-60 kg/ha | S: 20 kg/ha"},
+  {nome:"PIMENTÃO",phIdeal:"5,5 a 6,5",vDes:65,pDes:14,kDes:4,obs:"Alta exigência em Ca e B no cerrado. Solo rico em MO e irrigado. Elevar V% 65%. Muito sensível ao Al - calagem prioritária em RR.",adub:"N: 100-150 kg/ha | P2O5: 80-120 kg/ha | K2O: 120-160 kg/ha | Ca: 4% | B: 1-2 kg/ha"},
+  {nome:"PIMENTA DE CHEIRO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Variedade tropical muito comum em RR. Boa adaptação ao cerrado. Solo fértil e drenado. Alta resposta ao K e B.",adub:"N: 80-120 kg/ha | P2O5: 60-80 kg/ha | K2O: 100-140 kg/ha | B: 1-2 kg/ha | Ca: 3% sat"},
+  {nome:"PIMENTA ARDOSA",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Cultura de alta rentabilidade em RR. Mesmos parâmetros do pimentão. Solo bem drenado e fértil. Calagem V% 60%.",adub:"N: 80-120 kg/ha | P2O5: 60-80 kg/ha | K2O: 100-140 kg/ha | B: 1-2 kg/ha"},
+  {nome:"PUPUNHA",phIdeal:"5,5 a 6,5",vDes:55,pDes:12,kDes:4,obs:"Palmeira muito adaptada ao cerrado de RR. Alta resposta ao K. Solo bem drenado. Calagem leve - V% 55%. Parcelar N e K.",adub:"N: 100-150 kg/ha | P2O5: 50-70 kg/ha | K2O: 150-200 kg/ha | Mg: 20 kg/ha"},
+  {nome:"SOJA",phIdeal:"5,5 a 6,5",vDes:50,pDes:14,kDes:3,obs:"V% 50% recomendado para sequeiro no cerrado (Sousa & Lobato 2004). Fixação biológica de N - pH>5,5 essencial. Al<0,5 cmolc.",adub:"N: 20-30 kg/ha (arrancio) | P2O5: 70-100 kg/ha | K2O: 70-100 kg/ha | Zn: 3 kg/ha | Mo"},
+  {nome:"SORGO",phIdeal:"5,0 a 6,0",vDes:50,pDes:10,kDes:3,obs:"Tolerante ao estresse hídrico e à acidez moderada. V% 50% suficiente no cerrado. Boa resposta à calagem leve em RR.",adub:"N: 80-120 kg/ha | P2O5: 50-70 kg/ha | K2O: 60-80 kg/ha | Zn: 2 kg/ha"},
+  {nome:"TOMATE",phIdeal:"5,5 a 6,5",vDes:65,pDes:14,kDes:4,obs:"Alta demanda nutricional no cerrado. V% 65% para evitar podridão apical. Ca e B críticos. Irrigação essencial em RR.",adub:"N: 150-200 kg/ha | P2O5: 100-150 kg/ha | K2O: 200-250 kg/ha | Ca: 4% sat | B: 2 kg/ha"},
+  {nome:"TRIGO",phIdeal:"5,5 a 6,5",vDes:60,pDes:14,kDes:3,obs:"Sensível ao Al. V% 60% meta no cerrado. Potencial em RR no período seco com irrigação. Mn pode ser deficiente.",adub:"N: 80-120 kg/ha | P2O5: 60-80 kg/ha | K2O: 50-70 kg/ha | Mn: 3 kg/ha"},
+  {nome:"AMENDOIM",phIdeal:"5,5 a 6,5",vDes:55,pDes:12,kDes:3,obs:"Fixação de N exige pH>5,5. Sensível ao Al. Boa adaptação ao cerrado arenoso de RR. Ca essencial para enchimento do grão.",adub:"N: 20-30 kg/ha | P2O5: 50-70 kg/ha | K2O: 60-80 kg/ha | Ca: 3% sat"},
+];
+
+function g(id){return document.getElementById(id)}
+function v(id){return parseFloat(g(id).value)||0}
+function txt(id){return g(id).value||''}
+
+function getClasseArgila(a){
+  if(a<=15) return "Classe 4 - Areia / Solo Arenoso";
+  if(a<=20) return "Classe 4 - Franco Arenoso";
+  if(a<=35) return "Classe 3 - Solo de Textura Media";
+  if(a<=60) return "Classe 2 - Solo Argiloso";
+  return "Classe 1 - Solo Muito Argiloso";
+}
+
+function getTexturaDiagnostico(a){
+  // Based on Embrapa Cerrado, Sousa & Lobato (2004), Neossolo Quartzarenico data
+  if(a<=10) return {
+    classe:'AREIA / NEOSSOLO QUARTZARENICO',
+    cor:'#ef4444',
+    positivos:[
+      'Excelente drenagem - nao encharca',
+      'Facil preparo e mecanizacao do solo',
+      'Boa aeracao radicular',
+      'Aquece rapido - boa para germinacao'
+    ],
+    negativos:[
+      'CTC muito baixa (< 3 cmolc/dm3) - nao segura nutrientes',
+      'Perda rapida de agua - seca rapidamente',
+      'Alta lixiviacao de nutrientes (N, K, Ca, Mg)',
+      'Materia organica se decompoe muito rapido',
+      'Alta suscetibilidade a erosao hidrica',
+      'Baixissima fertilidade natural',
+      'Al toxico em profundidade'
+    ],
+    manejo:[
+      'ADUBACAO PARCELADA obrigatoria - minimo 3 vezes por ciclo',
+      'Priorizar IRRIGACAO - capacidade de retencao de agua muito baixa',
+      'Incorporar MATERIA ORGANICA (esterco, composto) para elevar CTC',
+      'Plantas de cobertura (Crotalaria, Braquiaria) entre safras',
+      'Calcario em doses menores e mais frequentes',
+      'K nao fazer corretiva a lanco - lixivia; aplicar parcelado no sulco',
+      'Monitorar P regularmente - lixivia menos que K mas se perde',
+      'Ref: Embrapa - Solos Areno-Quartzosos no Cerrado (2004)'
+    ]
+  };
+  if(a<=15) return {
+    classe:'AREIA FRANCA / NEOSSOLO QUARTZARENICO',
+    cor:'#f97316',
+    positivos:[
+      'Boa drenagem e aeracao',
+      'Facil preparo do solo',
+      'Baixo risco de compactacao'
+    ],
+    negativos:[
+      'CTC baixa - baixa retencao de nutrientes',
+      'Baixa capacidade de retencao de agua',
+      'Alta lixiviacao especialmente de K e N',
+      'Materia organica degrada rapidamente no cerrado',
+      'Suscetivel a erosao'
+    ],
+    manejo:[
+      'Adubacao parcelada em 2-3 vezes por ciclo',
+      'Irrigacao recomendada para culturas exigentes',
+      'Incorporar materia organica regularmente',
+      'Evitar adubacao potassica corretiva a lanco',
+      'Ref: Sousa & Lobato (2004) - Cerrado'
+    ]
+  };
+  if(a<=20) return {
+    classe:'FRANCO ARENOSO - TEXTURA LEVE',
+    cor:'#f59e0b',
+    positivos:[
+      'Boa drenagem e aeracao radicular',
+      'Facil mecanizacao',
+      'Boa resposta a calagem e adubacao',
+      'Dominante no lavrado de Roraima'
+    ],
+    negativos:[
+      'CTC media-baixa (3-5 cmolc/dm3)',
+      'Capacidade de retencao de agua media-baixa',
+      'Lixiviacao moderada de nutrientes',
+      'MO se perde com facilidade no cerrado tropical'
+    ],
+    manejo:[
+      'Adubacao parcelada em 2 vezes no minimo',
+      'Corretiva de P parcelada - CTP baixa (5-8 kg/ha por mg/dm3)',
+      'Investir em materia organica e cobertura do solo',
+      'Monitorar K - tendencia a lixiviar em solos arenosos',
+      'Predominante nos lavrados de Roraima - Latossolo Amarelo',
+      'Ref: Costa, Ferreira & Araujo - Apostila RR / Embrapa Roraima'
+    ]
+  };
+  if(a<=27) return {
+    classe:'FRANCO - TEXTURA MEDIA',
+    cor:'#eab308',
+    positivos:[
+      'Equilibrio entre drenagem e retencao de agua',
+      'CTC moderada (5-8 cmolc/dm3)',
+      'Boa resposta a correcao e adubacao',
+      'Menor risco de lixiviacao que solos arenosos',
+      'Boa estrutura fisica para a maioria das culturas'
+    ],
+    negativos:[
+      'Ainda exige manejo cuidadoso de fertilizantes',
+      'MO se decompe rapidamente no cerrado tropical',
+      'Pode compactar sob trafico intenso'
+    ],
+    manejo:[
+      'Adubacao pode ser em 2 vezes por ciclo',
+      'CTP moderada (8-11 kg/ha por mg/dm3) para fosfato',
+      'Manter MO acima de 20 g/dm3 para sustentabilidade',
+      'Boa opcao para a maioria das culturas do cerrado de RR',
+      'Ref: Sousa & Lobato (2004) - Cerrado'
+    ]
+  };
+  if(a<=35) return {
+    classe:'FRANCO ARGILOSO - TEXTURA MEDIA',
+    cor:'#84cc16',
+    positivos:[
+      'CTC media-boa (6-10 cmolc/dm3)',
+      'Boa retencao de agua e nutrientes',
+      'Boa resposta ao calcario e fertilizantes',
+      'Menor perdas por lixiviacao',
+      'Estrutura fisica adequada para a maioria das culturas'
+    ],
+    negativos:[
+      'Maior adsorção de fosforo que solos arenosos',
+      'Pode compactar com manejo inadequado',
+      'Exige preparo adequado em solos secos'
+    ],
+    manejo:[
+      'CTP media (11-17 kg/ha por mg/dm3) - fosfatagem mais alta que arenoso',
+      'Adubacao potassica corretiva a lanco possivel em solos com > 20% argila',
+      'Gessagem recomendada para Al em subsuperficie',
+      'Manter cobertura do solo para evitar compactacao',
+      'Ref: Sousa & Lobato (2004) - Cerrado'
+    ]
+  };
+  if(a<=45) return {
+    classe:'ARGILO ARENOSO - TEXTURA MEDIA A ARGILOSA',
+    cor:'#22c55e',
+    positivos:[
+      'CTC boa (8-12 cmolc/dm3)',
+      'Boa retencao de agua - menor risco de seca',
+      'Boa retencao de nutrientes',
+      'Alta resposta ao calcario - V% sobe bem',
+      'Estrutura fisica boa com manejo adequado'
+    ],
+    negativos:[
+      'Alta fixacao de fosforo (oxidos de Fe e Al)',
+      'Risco de compactacao se manejado umido',
+      'Pode ter drenagem mais lenta',
+      'Gessagem geralmente necessaria'
+    ],
+    manejo:[
+      'FOSFATAGEM CORRETIVA alta - CTP elevada (17-37 kg/ha por mg/dm3)',
+      'Gessagem obrigatoria para Al subosuperficial',
+      'Adubacao potassica corretiva possivel a lanco',
+      'Nao trabalhar o solo umido - evita compactacao',
+      'Tipico do Latossolo Vermelho do cerrado',
+      'Ref: Sousa & Lobato (2004) - Cerrado'
+    ]
+  };
+  if(a<=60) return {
+    classe:'ARGILOSO - LATOSSOLO TIPICO DO CERRADO',
+    cor:'#16a34a',
+    positivos:[
+      'CTC boa a alta (10-15 cmolc/dm3)',
+      'Excelente retencao de agua e nutrientes',
+      'Alta produtividade potencial apos correcao',
+      'Estrutura granular estavel - boa aeracao',
+      'Resistente a erosao quando vegetado',
+      'Principal solo agricola do cerrado brasileiro'
+    ],
+    negativos:[
+      'ALTA FIXACAO DE FOSFORO - principal limitacao',
+      'Risco de compactacao com trafico pesado',
+      'Exige altas doses de corretivos e fertilizantes na implantacao',
+      'Gessagem necessaria na maioria dos casos',
+      'Demora mais a aquecer'
+    ],
+    manejo:[
+      'FOSFATAGEM CORRETIVA muito alta - CTP alta (37-70 kg/ha por mg/dm3)',
+      'Fosfatagem parcelada em 2-3 anos e nao de uma so vez',
+      'Gessagem recomendada: dose = %argila x 60 kg/ha',
+      'Calcario pode ser aplicado a lanco e incorporado',
+      'Adubacao potassica corretiva a lanco possivel',
+      'Latossolo Vermelho e Amarelo - dominantes no cerrado',
+      'Ref: Sousa & Lobato (2004) - Cerrado; Embrapa Cerrados'
+    ]
+  };
+  return {
+    classe:'MUITO ARGILOSO - LATOSSOLO ARGILOSO',
+    cor:'#15803d',
+    positivos:[
+      'CTC muito alta (> 15 cmolc/dm3)',
+      'Excelente retencao de nutrientes e agua',
+      'Alta produtividade com manejo correto',
+      'Estrutura muito estavel - resistente a erosao'
+    ],
+    negativos:[
+      'FIXACAO EXTREMA DE FOSFORO - dose de fosfato altissima',
+      'Alto risco de compactacao e encharcamento',
+      'Preparo do solo muito exigente',
+      'Gessagem obrigatoria'
+    ],
+    manejo:[
+      'Fosfatagem corretiva: CTP maxima (70 kg/ha por mg/dm3)',
+      'Fosfatagem parcelar em 3-4 anos',
+      'Gessagem: %argila x 60 kg/ha minimo',
+      'Drenagem essencial - evitar encharcamento',
+      'Ref: Sousa & Lobato (2004) - Cerrado; Embrapa Cerrados'
+    ]
+  };
+}
+
+function getTexturaNome(a){
+  if(a<=10) return "Areia";
+  if(a<=15) return "Areia Franca";
+  if(a<=20) return "Franco Arenoso";
+  if(a<=27) return "Franco";
+  if(a<=35) return "Franco Argiloso";
+  if(a<=45) return "Argilo Arenoso";
+  if(a<=60) return "Argiloso";
+  return "Muito Argiloso";
+}
+function getPLimites(argila){
+  // Sousa & Lobato (2004) Cerrado Mehlich-1 - nivel critico por % argila
+  let nc;
+  if(argila<=15) nc=18;
+  else if(argila<=25) nc=15;
+  else if(argila<=35) nc=12;
+  else if(argila<=45) nc=9;
+  else if(argila<=55) nc=6;
+  else nc=4;
+  return {mb:nc*0.40, bm:nc*0.70, mm:nc*0.90, am:nc*1.20, nc:nc};
+}
+function interpretarP(p,argila){
+  // Sousa & Lobato (2004) - Cerrado Mehlich-1 critical levels by argila %
+  let nc;
+  if(argila<=15) nc=18;
+  else if(argila<=25) nc=15;
+  else if(argila<=35) nc=12;
+  else if(argila<=45) nc=9;
+  else if(argila<=55) nc=6;
+  else nc=4;
+  if(p<=nc*0.40)return{nivel:"Muito Baixo",cor:"#ef4444"};
+  if(p<=nc*0.70)return{nivel:"Baixo",cor:"#f97316"};
+  if(p<=nc*0.90)return{nivel:"Médio",cor:"#eab308"};
+  if(p<=nc*1.20)return{nivel:"Adequado",cor:"#22c55e"};
+  return{nivel:"Muito Alto",cor:"#16a34a"};
+}
+function interpretarPH(ph){
+  if(ph<4.5)return{texto:"Extremamente Ácido",cor:"#ef4444"};
+  if(ph<5.0)return{texto:"Muito Ácido",cor:"#f97316"};
+  if(ph<5.5)return{texto:"Ácido",cor:"#f59e0b"};
+  if(ph<6.0)return{texto:"Mod. Ácido",cor:"#eab308"};
+  if(ph<7.0)return{texto:"Adequado",cor:"#22c55e"};
+  if(ph<7.5)return{texto:"Neutro",cor:"#16a34a"};
+  return{texto:"Alcalino",cor:"#3b82f6"};
+}
+function ncStatus(nc){
+  if(nc<=0)return{text:"✅ Sem Necessidade",color:"#22c55e"};
+  if(nc<=1)return{text:"⚠️ Calagem Leve",color:"#f59e0b"};
+  if(nc<=3)return{text:"🔶 Calagem Moderada",color:"#f97316"};
+  return{text:"🔴 Calagem Intensa",color:"#ef4444"};
+}
+function kStatus(kp){
+  if(kp<1.5)return{text:"🔴 Muito Baixo",color:"#ef4444"};
+  if(kp<2.0)return{text:"🟠 Baixo",color:"#f97316"};
+  if(kp<3.0)return{text:"🟡 Médio",color:"#eab308"};
+  if(kp<5.0)return{text:"🟢 Alto",color:"#22c55e"};
+  return{text:"🟢 Muito Alto",color:"#16a34a"};
+}
+function setBadge(el,text,color){
+  el.textContent=text;
+  el.style.background=color+"22";el.style.color=color;el.style.border="1px solid "+color+"55";
+}
+function fmt(n,d){if(d===undefined)d=2;var x=parseFloat(n);return isNaN(x)?'0.00':x.toFixed(d)}
+
+function sync(){
+  g('hd-agricultor').textContent=txt('agricultor')||'-';
+  g('hd-propriedade').textContent=txt('propriedade')||'-';
+  const num=txt('num-amostra'), nome=txt('nome-amostra');
+  const amLabel=(num||nome)?((num?'#'+num+' - ':'')+( nome||'')): '-';
+  g('hd-amostra').textContent=amLabel;
+}
+
+function calc(){
+  sync();
+  const pH=v('pH'),P=v('P'),K=v('K'),Na=v('Na'),Ca=v('Ca'),Mg=v('Mg'),Al=v('Al'),HpAl=v('HpAl');
+  const areia=v('areia'),argila=v('argila'),mo=v('mo');
+  const area=v('area'),prnt=v('prnt'),profund=v('profund'),aplic=v('aplic');
+  const culturaNome=g('cultura-sel').value;
+  var cultura=CULTURAS.find(function(c){return c.nome===culturaNome;})||CULTURAS[22];
+
+  const SB=Ca+Mg+K+Na;
+  const CTC=SB+HpAl;
+  const Vpct=CTC>0?(SB/CTC)*100:0;
+  const mpct=(SB+Al)>0?(Al/(SB+Al))*100:0;
+  const co=mo/1.724;
+
+  const vDes=cultura.vDes;
+  const NC_base=CTC>0?((vDes-Vpct)/100)*CTC:0;
+  const NC_corr=NC_base>0?NC_base/(prnt/100)*(profund/20)*(aplic/100):0;
+  const NC_final=Math.max(0,NC_corr);
+  const NC_total=NC_final*area;
+
+  const classeArgila=getClasseArgila(argila);
+  const pDes=cultura.pDes;
+  const diffP=Math.max(0,pDes-P);
+  let ctp2; if(argila<=15)ctp2=5; else if(argila<=25)ctp2=8; else if(argila<=35)ctp2=11; else if(argila<=45)ctp2=17; else if(argila<=55)ctp2=37; else ctp2=70;
+  const needP2O5=diffP*ctp2;
+  const SFT=needP2O5/0.45,SSP=needP2O5/0.18,MAP=needP2O5/0.48,Termo=needP2O5/0.17;
+
+  const kDesPerc=cultura.kDes;
+  const kAtualPerc=CTC>0?(K/CTC)*100:0;
+  const kDiffPerc=Math.max(0,kDesPerc-kAtualPerc);
+  const kAddCmol=(kDiffPerc/100)*CTC;
+  const kKgHa=kAddCmol*390;
+  const kK2O=kKgHa*1.205;
+  const KCl=kK2O/0.60,K2SO4=kK2O/0.50;
+
+  const caMgRel=Mg>0?Ca/Mg:0;
+  const caKRel=K>0?Ca/K:0;
+  const mgKRel=K>0?Mg/K:0;
+
+  const phInterp=interpretarPH(pH);
+  const pInterp=interpretarP(P,argila);
+  const ncSt=ncStatus(NC_final);
+  const kSt=kStatus(kAtualPerc);
+
+  // --- TAB: ENTRADA ---
+  setBadge(g('badge-ph'),phInterp.texto,phInterp.cor);
+  setBadge(g('badge-p'),pInterp.nivel,pInterp.cor);
+  g('sum-classe').textContent=classeArgila;
+  g('sum-textura').textContent='Textura: '+getTexturaNome(argila);
+  // Update soil diagnostic card
+  var diag = getTexturaDiagnostico(argila);
+  var diagCard = g('solo-diagnostico');
+  if(argila > 0 && diagCard){
+    diagCard.style.display='block';
+    var hdr = g('diag-header');
+    hdr.style.background = diag.cor+'33';
+    hdr.style.border = '1px solid '+diag.cor+'66';
+    g('diag-classe').textContent = diag.classe;
+    g('diag-textura').textContent = getTexturaNome(argila)+' — '+fmt(argila,1)+'% argila';
+    g('diag-positivos').innerHTML = diag.positivos.map(function(p){return '<li>• '+p+'</li>';}).join('');
+    g('diag-negativos').innerHTML = diag.negativos.map(function(n){return '<li>• '+n+'</li>';}).join('');
+    g('diag-manejo').innerHTML = diag.manejo.map(function(m){return '<li>▸ '+m+'</li>';}).join('');
+  } else if(diagCard){
+    diagCard.style.display='none';
+  }
+  g('sum-co').textContent=fmt(co);g('sum-sb').textContent=fmt(SB);
+  g('sum-ctc').textContent=fmt(CTC);g('sum-v').textContent=fmt(Vpct,1)+'%';
+  g('sum-m').textContent=fmt(mpct,1)+'%';
+
+  // --- TAB: CALAGEM ---
+  g('r-sb').textContent=fmt(SB);g('r-ctc').textContent=fmt(CTC);
+  g('r-v').textContent=fmt(Vpct,1);g('r-m').textContent=fmt(mpct,1);
+  g('r-nc').textContent=fmt(NC_final,3);setBadge(g('r-nc-badge'),ncSt.text,ncSt.color);
+  g('r-nc-title').textContent='NC - PRNT '+prnt+'% | '+profund+'cm';
+  g('r-total').textContent=fmt(NC_total,2);g('r-total-title').textContent='Quantidade Total ('+area+' ha)';
+  g('formula-text').innerHTML='NC = (('+vDes+' - '+fmt(Vpct,1)+') / 100) x '+fmt(CTC)+' / ('+prnt+'/100) x ('+profund+'/20) x ('+aplic+'/100) = <span class="formula-result">'+fmt(NC_final,3)+' t/ha</span>';
+
+  // --- TAB: NPK ---
+  g('np-p-atual').textContent=P;setBadge(g('np-p-badge'),pInterp.nivel,pInterp.cor);
+  g('np-p-des').textContent=pDes;g('np-p-diff').textContent=fmt(diffP,1);
+  g('np-p2o5').textContent=fmt(needP2O5,2);
+  g('np-sft').textContent=fmt(SFT,2);g('np-ssp').textContent=fmt(SSP,2);
+  g('np-map').textContent=fmt(MAP,2);g('np-termo').textContent=fmt(Termo,2);
+  g('np-k-atual').textContent=fmt(kAtualPerc,2);setBadge(g('np-k-badge'),kSt.text,kSt.color);
+  g('np-k-des').textContent=kDesPerc;g('np-k2o').textContent=fmt(kK2O,2);
+  g('np-kcl').textContent=fmt(KCl,2);g('np-kso4').textContent=fmt(K2SO4,2);
+
+  // --- TAB: CULTURA ---
+  g('cult-title').textContent='Recomendação para '+culturaNome;
+  g('c-ph-ideal').textContent=cultura.phIdeal;
+  g('c-v-des').textContent=vDes+'%';g('c-p-des').textContent=pDes+' mg/dm3';
+  g('c-k-des').textContent=kDesPerc+'%';g('c-obs').textContent=cultura.obs;
+  g('c-adub').textContent=cultura.adub;
+  g('c-nc').textContent=fmt(NC_final,3);setBadge(g('c-nc-badge'),ncSt.text,ncSt.color);
+  g('c-p2o5').textContent=fmt(needP2O5,2);g('c-k2o').textContent=fmt(kK2O,2);
+
+  // atualiza botões de cultura
+  document.querySelectorAll('.cultura-btn').forEach(function(b){
+    b.className='cultura-btn'+(b.dataset.nome===culturaNome?' active':'');
+  });
+
+  // --- TAB: RELAÇÕES ---
+  g('rel-camg').textContent=fmt(caMgRel);
+  const ok_camg=caMgRel>=2&&caMgRel<=5;
+  setBadge(g('rel-camg-badge'),ok_camg?'✅ Adequado':'⚠️ Fora do Ideal',ok_camg?'#22c55e':'#f59e0b');
+  g('rel-cak').textContent=fmt(caKRel);
+  const ok_cak=caKRel>=10&&caKRel<=30;
+  setBadge(g('rel-cak-badge'),ok_cak?'✅ Adequado':'⚠️ Fora do Ideal',ok_cak?'#22c55e':'#f59e0b');
+  g('rel-mgk').textContent=fmt(mgKRel);
+  const ok_mgk=mgKRel>=3&&mgKRel<=10;
+  setBadge(g('rel-mgk-badge'),ok_mgk?'✅ Adequado':'⚠️ Fora do Ideal',ok_mgk?'#22c55e':'#f59e0b');
+
+  g('sum2-ph').textContent=pH;setBadge(g('sum2-ph-badge'),phInterp.texto,phInterp.cor);
+  g('sum2-v').textContent=fmt(Vpct,1)+'%';
+  const vOk=Vpct>=50;setBadge(g('sum2-v-badge'),vOk?'Adequada':'Baixa',vOk?'#22c55e':'#ef4444');
+  g('sum2-m').textContent=fmt(mpct,1)+'%';
+  const mOk=mpct<15;setBadge(g('sum2-m-badge'),mOk?'OK':'Alto Al',mOk?'#22c55e':'#ef4444');
+  g('sum2-sb').textContent=fmt(SB);g('sum2-ctc').textContent=fmt(CTC);
+  g('sum2-p').textContent=P;setBadge(g('sum2-p-badge'),pInterp.nivel,pInterp.cor);
+  g('sum2-ksat').textContent=fmt(kAtualPerc,1)+'%';setBadge(g('sum2-k-badge'),kSt.text,kSt.color);
+  g('sum2-mo').textContent=mo;
+}
+
+function showTab(id){
+  ['entrada','calagem','npk','cultura','relacoes','micro','gessagem','calcdose','receituario'].forEach(function(t){
+    g('tab-'+t).classList.toggle('hidden',t!==id);
+  });
+  document.querySelectorAll('.nav-btn').forEach(function(b,i){
+    b.classList.toggle('active',['entrada','calagem','npk','cultura','relacoes','micro','gessagem','calcdose','receituario'][i]===id);
+  });
+}
+
+function setCultura(nome){
+  g('cultura-sel').value=nome;calc();showTab('cultura');
+}
+
+// Build cultura buttons
+var cb=g('cultura-btns');
+CULTURAS.forEach(function(c){
+  const b=document.createElement('button');
+  b.className='cultura-btn';b.dataset.nome=c.nome;b.textContent=c.nome;
+  b.onclick=function(){setCultura(c.nome);};cb.appendChild(b);
+});
+
+// ══════════════ GPS ══════════════
+function capturarGPS(){
+  var aviso=g('gps-aviso');
+  var btn=g('gps-capture-btn');
+  aviso.style.display='none';
+  
+  if(!navigator.geolocation){
+    aviso.style.display='block';
+    aviso.innerHTML='GPS nao disponivel neste navegador. Use os botoes abaixo.';
+    return;
+  }
+  
+  btn.textContent='Aguardando GPS...';
+  btn.disabled=true;
+  
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      var lat=pos.coords.latitude.toFixed(6);
+      var lng=pos.coords.longitude.toFixed(6);
+      var acc=Math.round(pos.coords.accuracy);
+      g('gps-coords').value=lat+', '+lng;
+      g('gps-result').style.display='block';
+      g('gps-result').innerHTML='OK - Lat: '+lat+' | Long: '+lng+' | Precisao: ~'+acc+'m';
+      btn.textContent='Capturar GPS';
+      btn.disabled=false;
+    },
+    function(err){
+      btn.textContent='Capturar GPS';
+      btn.disabled=false;
+      aviso.style.display='block';
+      if(err.code===1){
+        aviso.innerHTML='PERMISSAO NEGADA pelo navegador. No Chrome: toque nos 3 pontinhos > Configuracoes > Privacidade e seguranca > Configuracoes do site > Localizacao > Permitir. Depois recarregue o arquivo. OU use o botao Maps abaixo para pegar a coordenada.';
+      } else {
+        aviso.innerHTML='Sinal GPS fraco. Va para area aberta ou use o botao Maps abaixo.';
+      }
+    },
+    {enableHighAccuracy:true, timeout:25000, maximumAge:0}
+  );
+}
+
+function abrirMapsParaCoordenada(){
+  // Opens Google Maps to current location on the phone - works on any Android
+  var url='https://maps.google.com/?q=my+location';
+  // Try to open with current location
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(pos){
+      var lat=pos.coords.latitude.toFixed(6);
+      var lng=pos.coords.longitude.toFixed(6);
+      g('gps-coords').value=lat+', '+lng;
+      g('gps-result').style.display='block';
+      g('gps-result').innerHTML='OK - Lat: '+lat+' | Long: '+lng;
+      window.open('https://maps.google.com/?q='+lat+','+lng,'_blank');
+    }, function(){
+      // fallback - just open maps
+      window.open('https://maps.google.com','_blank');
+      g('gps-aviso').style.display='block';
+      g('gps-aviso').innerHTML='No Google Maps: segure o dedo no ponto para ver as coordenadas. Copie e cole no campo acima no formato: -1.234567, -60.123456';
+    },{enableHighAccuracy:true,timeout:15000});
+  } else {
+    window.open('https://maps.google.com','_blank');
+  }
+}
+
+function usarCoordManual(){
+  var campo=g('gps-coords');
+  campo.focus();
+  campo.placeholder='Ex: 2.825278, -60.673472';
+  g('gps-aviso').style.display='block';
+  g('gps-aviso').innerHTML='Digite: LATITUDE, LONGITUDE - Ex: 2.825278, -60.673472 (sul = negativo, oeste = negativo)';
+}
+
+
+function abrirMaps(){
+  var coords=g('gps-coords').value.trim();
+  if(!coords){alert('Capture o GPS primeiro.');return;}
+  var parts=coords.split(',');
+  if(parts.length<2){alert('Coordenadas inválidas.');return;}
+  var lat=parts[0].trim(),lng=parts[1].trim();
+  window.open('https://maps.google.com/?q='+lat+','+lng,'_blank');
+}
+
+// ══════════════ MICRO ══════════════
+var MICRO_NIVEIS = [
+  {id:'Zn',nome:'Zinco (Zn)',unid:'mg/dm3',nc:1.0,obs:'Crítico em solos arenosos do cerrado de RR. Deficiência causa encurtamento de entrenós, folhas pequenas. Correção: ZnSO4 (33% Zn) 5-10 kg/ha solo ou 0,3% foliar.'},
+  {id:'B',nome:'Boro (B)',unid:'mg/dm3',nc:0.5,obs:'Deficiente em solos lixiviados de RR. Sintoma: morte do broto apical, frutos deformados. Correção: bórax (11% B) 1-3 kg/ha solo. Cuidado: faixa entre deficiência e toxidez é estreita.'},
+  {id:'Mn',nome:'Manganês (Mn)',unid:'mg/dm3',nc:5.0,obs:'Pode ser deficiente em pH > 6,5. Sintoma: clorose internerval em folhas jovens. Correção: MnSO4 3-5 kg/ha solo ou 0,3% foliar.'},
+  {id:'Cu',nome:'Cobre (Cu)',unid:'mg/dm3',nc:0.3,obs:'Geralmente suficiente, mas pode ser deficiente em solos orgânicos ou muito arenosos. Correção: CuSO4 3-5 kg/ha solo.'},
+  {id:'Fe',nome:'Ferro (Fe)',unid:'mg/dm3',nc:5.0,obs:'Raramente deficiente em solos ácidos do cerrado. Excesso pode ser problema em pH muito baixo. Monitorar em solos muito lixiviados de RR.'},
+  {id:'S',nome:'Enxofre (S)',unid:'mg/dm3',nc:10.0,obs:'Frequentemente deficiente em solos arenosos de RR (Latossolos distróficos). Correção: gesso agrícola 500-1000 kg/ha ou superfosfato simples como fonte alternativa.'}
+];
+function buildMicroCards(){
+  var container=g('micro-cards');
+  if(!container)return;
+  container.innerHTML='';
+  MICRO_NIVEIS.forEach(function(m){
+    var el=g(m.id);
+    var val=el?parseFloat(el.value)||0:0;
+    var pct=val>0?Math.min(val/m.nc*100,200):0;
+    var status,cls,dose='';
+    if(val===0){status='Não informado';cls='micro-status-low';}
+    else if(val<m.nc*0.5){status='⚠️ Muito Baixo';cls='micro-status-vlow';dose='Correção urgente necessária.';}
+    else if(val<m.nc){status='⬇️ Abaixo do NC';cls='micro-status-low';dose='Correção recomendada.';}
+    else if(val<=m.nc*2){status='✅ Adequado';cls='micro-status-ok';}
+    else{status='⬆️ Elevado';cls='micro-status-ok';}
+    var barColor=val===0?'#334155':val<m.nc?'#f97316':'#22c55e';
+    var barW=Math.min(pct,100)+'%';
+    container.innerHTML+='<div class="micro-card">'
+      +'<div class="micro-label">'+m.nome+'</div>'
+      +'<div style="font-size:20px;font-weight:700;color:#f1f5f9">'+val+' <span style="font-size:11px;color:#64748b">'+m.unid+'</span></div>'
+      +'<div style="background:#1e293b;border-radius:4px;height:6px;margin:6px 0"><div style="background:'+barColor+';width:'+barW+';height:6px;border-radius:4px;transition:width .3s"></div></div>'
+      +'<div class="'+cls+'">'+status+'</div>'
+      +'<div style="font-size:10px;color:#475569;margin-top:2px">NC: '+m.nc+' '+m.unid+'</div>'
+      +'<div class="micro-dose">'+m.obs+'</div>'
+      +'</div>';
+  });
+}
+
+// ══════════════ GESSAGEM ══════════════
+function calcGesso(){
+  var argila=parseFloat(g('g-argila').value)||0;
+  var area=parseFloat(g('g-area').value)||1;
+  var nc=parseFloat(g('g-nc').value)||0;
+  var fator=argila<=35?50:60;
+  var dose=argila*fator;
+  if(dose<500)dose=500;
+  var total=dose*area;
+  var sacosHa=Math.ceil(dose/50);
+  var sacosTotal=Math.ceil(total/50);
+  var rec=argila<35?'Aplicar a lanço sem incorporar (solos arenosos). Parcelar se dose>2t/ha.':'Aplicar a lanço, sem incorporar. Pode parcelar em 2 aplicações.';
+  var html2='<div class="res-card" style="margin-bottom:8px"><div class="res-card-title">Dose de Gesso Agrícola</div><div class="res-card-val"><span class="res-card-num amber">'+dose.toFixed(0)+'</span><span class="res-card-unit">kg/ha</span></div></div>'
+    +'<div class="res-card" style="margin-bottom:8px"><div class="res-card-title">Total para '+area+' ha</div><div class="res-card-val"><span class="res-card-num amber">'+(total/1000).toFixed(2)+'</span><span class="res-card-unit">toneladas</span></div></div>'
+    +'<div class="res-card"><div class="res-card-title">Sacos de 50 kg / ha</div><div class="res-card-val"><span class="res-card-num" style="color:#f472b6">'+sacosHa+'</span><span class="res-card-unit">sacos/ha</span><span class="res-card-num" style="color:#f472b6;font-size:14px;margin-left:12px">'+sacosTotal+' total</span></div></div>';
+  g('gesso-results').innerHTML=html2;
+}
+
+// ══════════════ CALC DOSE ══════════════
+function calcDose(){
+  var dose=parseFloat(g('cd-dose').value)||0;
+  var tipo=g('cd-tipo').value;
+  var area=parseFloat(g('cd-area').value)||1;
+  var bomba=parseFloat(g('cd-bomba').value)||20;
+  var calda=parseFloat(g('cd-calda').value)||200;
+  var esp=parseFloat(g('cd-esp').value)||0;
+  var totalProd=dose*area;
+  var tanquesHa=calda/bomba;
+  var prodPorTanque=dose/tanquesHa;
+  var metrosLinha=esp>0?(10000/esp):0;
+  var prodPor100m=esp>0?(dose/(metrosLinha/100)):0;
+  var u=tipo==='liquido';
+  var r='<div class="grid3">'
+    +'<div class="calc-result"><div class="calc-result-label">Total para '+area+' ha</div><div class="calc-result-val">'+formatProd(totalProd,u)+'</div><div style="font-size:11px;color:#64748b">'+(u?'litros':'kg')+'</div></div>'
+    +'<div class="calc-result"><div class="calc-result-label">Por tanque ('+bomba+'L)</div><div class="calc-result-val">'+formatProd(prodPorTanque,u)+'</div><div style="font-size:11px;color:#64748b">'+(u?'mL':'g')+'</div></div>'
+    +'<div class="calc-result"><div class="calc-result-label">Tanques por hectare</div><div class="calc-result-val">'+tanquesHa.toFixed(1)+'</div><div style="font-size:11px;color:#64748b">tanques</div></div>'
+    +(esp>0?'<div class="calc-result"><div class="calc-result-label">Por 100m de linha</div><div class="calc-result-val">'+formatProd(prodPor100m,u)+'</div><div style="font-size:11px;color:#64748b">'+(u?'mL':'g')+'</div></div>':'')
+    +'</div>';
+  g('dose-results').innerHTML=r;
+}
+function formatProd(v,liq){
+  if(liq){return v>=1?v.toFixed(2)+' L':(v*1000).toFixed(0)+' mL';}
+  return v>=1?v.toFixed(2)+' kg':(v*1000).toFixed(0)+' g';
+}
+function calcCova(){
+  var dose=parseFloat(g('cs-dose').value)||0;
+  var saco=parseFloat(g('cs-saco').value)||50;
+  var el=parseFloat(g('cs-el').value)||1;
+  var ep=parseFloat(g('cs-ep').value)||0.5;
+  var plantsHa=10000/(el*ep);
+  var gPorPlanta=(dose/plantsHa)*1000;
+  var sacosHa=dose/saco;
+  var r='<div class="grid3">'
+    +'<div class="calc-result"><div class="calc-result-label">Plantas por hectare</div><div class="calc-result-val">'+Math.round(plantsHa)+'</div><div style="font-size:11px;color:#64748b">plantas/ha</div></div>'
+    +'<div class="calc-result"><div class="calc-result-label">Por planta / cova</div><div class="calc-result-val">'+(gPorPlanta<1000?gPorPlanta.toFixed(1)+' g':((gPorPlanta/1000).toFixed(2)+' kg'))+'</div><div style="font-size:11px;color:#64748b">g ou kg por cova</div></div>'
+    +'<div class="calc-result"><div class="calc-result-label">Sacos de '+saco+'kg / ha</div><div class="calc-result-val">'+sacosHa.toFixed(1)+'</div><div style="font-size:11px;color:#64748b">sacos por hectare</div></div>'
+    +'</div>';
+  g('cova-results').innerHTML=r;
+}
+
+// ══════════════ RECEITUARIO ══════════════
+var PRAGAS = [
+  {id:'mosca-branca',nome:'Mosca Branca',cat:'praga',
+   defensivos:[
+    {nome:'Imidacloprido (Confidor WG / Provado)',dose:'0,5-1,0 g/L ou drench 2-3 mL/L',obs:'Neonicotinoide sistemico. Drench logo apos emergencia: diluir 2-3 mL/planta na base. Excelente para adultos. Carencia: 21 dias.'},
+    {nome:'Tiametoxam (Actara 250 WG)',dose:'0,1-0,2 g/L',obs:'Neonicotinoide sistemico de alta eficacia. Controla adultos e ninfas. Carencia: 7-21 dias. Rotar com outros grupos.'},
+    {nome:'Spiromesifeno (Oberon)',dose:'0,6-1,0 mL/L',obs:'Acaricida/inseticida. Controle de ovos e ninfas jovens. Sem resistencia cruzada com neonicotinoides. Carencia: 3 dias.'},
+    {nome:'Buprofezina (Applaud)',dose:'0,5-0,75 g/L',obs:'Inibidor de sintese de quitina. Age sobre ninfas. Nao mata adultos. Excelente complemento em rotacao. Carencia: 14 dias.'},
+    {nome:'Pimetrozina (Chess WG)',dose:'0,3 g/L',obs:'Inibidor de alimentacao. Para de se alimentar e morre em 2-4 dias. Seletivo para inimigos naturais. Carencia: 7 dias.'},
+    {nome:'Oleo de Neem (Azadiractina)',dose:'5-10 mL/L',obs:'Organico. Repelente e inibidor de muda. Aplicar a tarde. Reaplicar a cada 7 dias. Compativel com MIP.'}
+   ]},
+  {id:'tripes',nome:'Tripes',cat:'praga',
+   defensivos:[
+    {nome:'Imidacloprido (Confidor / Provado) - DRENCH',dose:'2-3 mL/planta na base',obs:'DRENCH apos emergencia: aplicar solucao diluida na base da planta. Controla tripes de solo e raiz. Essencial na fase de pegamento. Carencia: 21 dias.'},
+    {nome:'Espinosade (Tracer / Delegate WG)',dose:'0,4-0,8 mL/L ou 0,2 g/L (Delegate)',obs:'Espinosinas. Alta eficacia em ninfas e adultos. Delegate tem maior persistencia. Carencia: 1-7 dias. Baixo impacto a inimigos naturais apos seco.'},
+    {nome:'Abamectina (Vertimec 18 EC)',dose:'0,5-1,0 mL/L',obs:'Sistemico translaminar. Atingir face abaxial da folha. Eficaz contra ninfas. Carencia: 3-14 dias.'},
+    {nome:'Clorfenapir (Pirate)',dose:'0,75-1,0 mL/L',obs:'Pro-inseticida. Eficaz em populacoes resistentes. Carencia: 7 dias. Nao misturar com outros inseticidas organofosforados.'},
+    {nome:'Dicarzol (Formetanato HCl)',dose:'1,0-1,5 g/L',obs:'Carbamato. Alta eficacia em tripes adultos. Contato e ingestao. Carencia: 3-7 dias. Usar EPI completo.'},
+    {nome:'Imidacloprido + Beta-Ciflutrina (Connect)',dose:'0,75-1,0 L/ha',obs:'Mistura piretroide + neonicotinoide. Boa cobertura sistémica e por contato. Carencia: 14 dias.'},
+    {nome:'Tiametoxam + Lambda-cialotrina (Engeo Pleno)',dose:'0,2-0,3 L/ha',obs:'Combinacao de alto desempenho. Sistemico + piretroide. Excelente para grandes infestacoes. Carencia: 7-14 dias.'}
+   ]},
+  {id:'pulgao',nome:'Pulgao / Afideo',cat:'praga',
+   defensivos:[
+    {nome:'Pirimicarbe (Pirimor)',dose:'0,5-1,0 g/L',obs:'Aficida seletivo. Nao prejudica joaninhas e outros inimigos naturais. Excelente no MIP. Carencia: 14 dias.'},
+    {nome:'Imidacloprido (Confidor)',dose:'0,5 mL/L ou drench',obs:'Sistemico. Acao rapida em colonias. Drench na base previne reinfestacao. Carencia: 21 dias.'},
+    {nome:'Pimetrozina (Chess WG)',dose:'0,3-0,5 g/L',obs:'Para de se alimentar e morre em 2-4 dias. Seletivo. Carencia: 7 dias.'},
+    {nome:'Tiametoxam (Actara)',dose:'0,1 g/L',obs:'Excelente para pulgoes resistentes a outros neonicotinoides. Carencia: 7 dias.'},
+    {nome:'Pirimicarbe + Bifentrina',dose:'Conforme rotulo',obs:'Combinacao para controle rapido (piretroide) + residual (aficida). Usar em alta pressao.'},
+    {nome:'Sulfoxaflor (Closer SC)',dose:'0,1-0,15 mL/L',obs:'Sulfoximina - novo modo de acao. Para pulgoes resistentes a neonicotinoides. Carencia: 7 dias.'}
+   ]},
+  {id:'acaros',nome:'Acaros (Rajado, Vermelho, Branco)',cat:'praga',
+   defensivos:[
+    {nome:'Abamectina (Vertimec 18 EC)',dose:'0,5-1,0 mL/L',obs:'Principal acaricida. Translaminar. Cobrir bem a face inferior. Carencia: 3 dias. Mais eficaz em temperaturas altas.'},
+    {nome:'Spiromesifeno (Oberon)',dose:'0,6 mL/L',obs:'Excelente para ovos e larvas. Sem resistencia cruzada com abamectina. Rotar entre os dois.'},
+    {nome:'Bifenazato (Acramite)',dose:'1,0-1,5 mL/L',obs:'Especifico para acaros. Nao mata insetos. Baixo risco de resistencia. Carencia: 3-7 dias.'},
+    {nome:'Clorfenapir (Pirate)',dose:'1,0-1,5 mL/L',obs:'Pro-inseticida. Eficaz em populacoes resistentes a abamectina. Carencia: 7 dias.'},
+    {nome:'Enxofre molhavel (Kumulus DF)',dose:'2-3 g/L',obs:'Alternativa organica. Preventivo e curativo leve. Nao aplicar acima de 35°C — fitotoxidez. Reaplicar a cada 10 dias.'},
+    {nome:'Fenpiroximato (Ortus 50 SC)',dose:'1,0 mL/L',obs:'Inibidor de transporte de eletrons. Todas as fases do acaro. Carencia: 7 dias.'},
+    {nome:'Score (Difenoconazol)',dose:'0,3-0,5 mL/L',obs:'OBS: Score e fungicida, mas tem atividade acaricida secundaria sobre acaro branco. Usar quando houver concomitancia com fungos.'}
+   ]},
+  {id:'minadora',nome:'Mosca Minadora (Liriomyza sp.)',cat:'praga',
+   defensivos:[
+    {nome:'Abamectina (Vertimec 18 EC)',dose:'1,0 mL/L',obs:'Principal para larvas dentro das folhas. Translaminar. Aplicar no inicio. Carencia: 3-14 dias.'},
+    {nome:'Cyromazina (Trigard 750 WP)',dose:'0,3 g/L',obs:'Especifico para dipteros minadores. Translocacao sistemica total. Carencia: 3 dias. Muito eficaz.'},
+    {nome:'Espinosade (Tracer)',dose:'0,5 mL/L',obs:'Age sobre larvas jovens. Menor eficacia em larvas velhas. Carencia: 1-7 dias.'},
+    {nome:'Imidacloprido (Confidor) - preventivo',dose:'0,5 mL/L',obs:'Preventivo sistemico. Nao elimina larvas ja dentro da folha, mas protege novas folhas. Combinar com Trigard.'},
+    {nome:'Thiamethoxam (Actara)',dose:'0,2 g/L',obs:'Sistemico de alta eficacia. Age em larvas recentes. Carencia: 7-14 dias.'}
+   ]},
+  {id:'cochonilha',nome:'Cochonilha',cat:'praga',
+   defensivos:[
+    {nome:'Oleo Mineral Emulsionavel',dose:'1,0-1,5% (10-15 mL/L)',obs:'Sufoca ovos e ninfas. Aplicar com cobertura total. Nao aplicar em altas temperaturas ou plantas estressadas.'},
+    {nome:'Imidacloprido (Confidor)',dose:'1,0 mL/L ou via solo',obs:'Sistemico. Eficaz para cochonilhas sugadoras. Aplicar via drench para cochonilhas de raiz.'},
+    {nome:'Clorpirifos (Lorsban)',dose:'1,5-2,0 mL/L',obs:'Organofosforado de amplo espectro. EPI completo obrigatorio. Carencia: 21-60 dias.'},
+    {nome:'Spirotetramat (Movento)',dose:'0,8-1,0 mL/L',obs:'Bifuncional: sobe e desce na planta. Excelente para cochonilhas em galhos e raizes. Carencia: 7 dias.'},
+    {nome:'Buprofezina (Applaud)',dose:'0,5 g/L',obs:'Inibidor de quitina. Age sobre ninfas jovens. Combinar com inseticida de contato para adultos.'}
+   ]},
+  {id:'lagarta',nome:'Lagartas (Spodoptera, Helicoverpa)',cat:'praga',
+   defensivos:[
+    {nome:'Bt (Dipel WP) — Bacillus thuringiensis',dose:'1,0-2,0 g/L',obs:'Biologico. Especifico para lagartas 1o-3o instar. Aplicar a tarde. Reaplicar a cada 5-7 dias.'},
+    {nome:'Clorantraniliprole (Premio SC / Coragen)',dose:'0,1-0,2 mL/L',obs:'Diamida. Alta eficacia em todas as especies. Baixa toxicidade a mamiferos. Carencia: 1-7 dias.'},
+    {nome:'Emamectina (Prove 50 EC)',dose:'0,2-0,4 mL/L',obs:'Alta eficacia em lagartas resistentes. Carencia: 7-14 dias. Excelente para Helicoverpa.'},
+    {nome:'Espinosade (Tracer)',dose:'0,5-0,8 mL/L',obs:'Eficaz em lagartas jovens. Baixo impacto a inimigos naturais. Carencia: 1-7 dias.'},
+    {nome:'Metomil (Lannate)',dose:'1,0-1,5 g/L',obs:'Carbamato de acao rapida. Uso em alta pressao. Carencia: 3-7 dias. EPI completo.'},
+    {nome:'Tiodicarbe (Larvin)',dose:'0,6-1,0 mL/L',obs:'Carbamato sistemico. Ovicida e larvicida. Carencia: 7 dias.'}
+   ]},
+  {id:'nematoides',nome:'Nematoides de Solo',cat:'doenca',
+   defensivos:[
+    {nome:'Carbofurano (Furadan) — RESTRITO',dose:'30-40 kg/ha (granulo)',obs:'ALTAMENTE TOXICO. Aplicar no sulco de plantio. EPI completo obrigatorio. Exige receituario agronômico. Produto restrito.'},
+    {nome:'Oxamil (Vydate)',dose:'2-4 L/ha',obs:'Sistemico. Carencia: 7-21 dias. Uso restrito — exige RT.'},
+    {nome:'Fluopyram (Velum Prime)',dose:'0,5-1,0 L/ha',obs:'Nematicida biologico. Aplicar via solo no plantio. Baixa toxicidade. Carencia: 3 dias. Boa opcao sustentavel.'},
+    {nome:'Biofumigacao com Crotalaria',dose:'Plantar e incorporar',obs:'Cultural preventivo. Crotalaria spectabilis reduz Meloidogyne. Incorporar antes do florescimento.'},
+    {nome:'Bacillus firmus (BioNem)',dose:'Conforme rotulo',obs:'Nematicida biologico. Aplicar no sulco ou drench. Compativel com manejo sustentavel.'}
+   ]},
+  {id:'fusarium',nome:'Fusarium / Tombamento',cat:'doenca',
+   defensivos:[
+    {nome:'Thiram + Carbendazim (Derosal Plus)',dose:'200-300 mL/100 kg semente',obs:'Tratamento de semente. Controla Fusarium e Rhizoctonia. Aplicar antes do plantio.'},
+    {nome:'Fludioxonil (Maxim XL)',dose:'100-150 mL/100 kg semente',obs:'Fungicida de contato para tratamento de semente. Excelente para patogenos de solo.'},
+    {nome:'Procimidona (Sialex)',dose:'1,0-2,0 g/L solo',obs:'Fungicida dicarboximida. Aplicar no solo antes do plantio. Controla Botrytis tambem.'},
+    {nome:'Azoxistrobina + Difenoconazol (Amistar Top)',dose:'0,3-0,5 L/ha',obs:'Combinacao estrobilurina + triazol. Controle foliar e sistemico. Carencia: 7-14 dias.'},
+    {nome:'RECOP (Oxicloreto de Cobre)',dose:'3-4 g/L preventivo',obs:'Preventivo para Fusarium em solo. Aplicar na cova antes do transplantio.'}
+   ]},
+  {id:'phytophthora',nome:'Phytophthora / Mela / Requeima',cat:'doenca',
+   defensivos:[
+    {nome:'Metalaxil-M (Ridomil Gold)',dose:'2,5 g/L',obs:'Especifico para oomicetos. Sistemico. Muito eficaz preventivo. Carencia: 7-14 dias.'},
+    {nome:'Dimetomorfe (Forum)',dose:'0,6-1,0 g/L',obs:'Anti-oomiceto. Usar em rotacao com metalaxil. Carencia: 7 dias.'},
+    {nome:'Fosetil-Al (Aliette)',dose:'2,0-3,0 g/L',obs:'Translocacao bidirecional. Estimula defesa da planta. Preventivo e curativo.'},
+    {nome:'Cimoxanil + Cobre (Curzate Micro)',dose:'2,0 g/L',obs:'Mistura preventiva/curativa. Excelente para requeima do tomate. Carencia: 7 dias.'},
+    {nome:'Mandipropamida (Revus)',dose:'0,6 mL/L',obs:'Anti-oomiceto de ultima geracao. Alta eficacia. Carencia: 1 dia. Excelente para mandioca e tomate.'}
+   ]},
+  {id:'fungos-foliares',nome:'Fungos Foliares (Alternaria, Cercospora, Mancha)',cat:'doenca',
+   defensivos:[
+    {nome:'Score (Difenoconazol 250 EC)',dose:'0,3-0,5 mL/L',obs:'Triazol sistemico de amplo espectro. Preventivo e curativo. Excelente para Alternaria e Cercospora. Carencia: 14-30 dias.'},
+    {nome:'Azoxistrobina (Amistar SC)',dose:'0,8-1,0 mL/L',obs:'Estrobilurina sistemica. Preventivo e curativo. Carencia: 7-14 dias. Rotar para evitar resistencia.'},
+    {nome:'Mancozebe (Dithane NT / Manzate)',dose:'2,0-3,0 g/L',obs:'Multissitio - baixo risco de resistencia. Protetor de contato. Reaplicar apos chuvas. Carencia: 7 dias.'},
+    {nome:'Propiconazol (Tilt CE)',dose:'0,5-0,75 mL/L',obs:'Triazol sistemico. Curativo e preventivo. Carencia: 14-30 dias.'},
+    {nome:'Boscalida + Cresoxim-metil (Collis)',dose:'0,4 mL/L',obs:'Combinacao SDHI + estrobilurina. Alta eficacia. Carencia: 7-14 dias.'},
+    {nome:'Oxicloreto de Cobre - RECOP',dose:'3,0-4,0 g/L',obs:'Fungicida cuprico preventivo. Baixo custo. Reaplicar a cada 7-10 dias em periodo chuvoso.'}
+   ]},
+  {id:'oidio',nome:'Oidio',cat:'doenca',
+   defensivos:[
+    {nome:'Enxofre molhavel (Kumulus DF)',dose:'2,0-3,0 g/L',obs:'Classico para oidio. Preventivo e curativo leve. Nao aplicar acima de 35C. Reaplicar a cada 10 dias.'},
+    {nome:'Tebuconazol (Folicur EC)',dose:'0,75-1,0 mL/L',obs:'Triazol sistemico. Excelente curatismo. Carencia: 14-28 dias.'},
+    {nome:'Trifloxistrobina + Tebuconazol (Nativo)',dose:'0,5-0,75 L/ha',obs:'Combinacao premium. Amplo espectro. Controla tambem ferrugem e Cercospora. Carencia: 14 dias.'},
+    {nome:'Score (Difenoconazol)',dose:'0,3 mL/L',obs:'Excelente curativo para oidio estabelecido. Carencia: 14 dias.'},
+    {nome:'Bicarbonato de Potassio (Karma)',dose:'5-7 g/L',obs:'Alternativa organica. Alcaliniza superficie da folha. Seguro, sem carencia. Reaplicar a cada 5-7 dias.'}
+   ]},
+  {id:'bacteriose',nome:'Bacterioses',cat:'doenca',
+   defensivos:[
+    {nome:'Oxicloreto de Cobre - RECOP (Cuprogarb)',dose:'3,0-4,0 g/L',obs:'Bactericida de contato. Preventivo. Aplicar antes de periodos chuvosos. Carencia: 7 dias.'},
+    {nome:'Hidroxido de Cobre (Kocide)',dose:'2,0-3,0 g/L',obs:'Formulacao moderna de cobre. Menor fitotoxidez. Excelente preventivo. Carencia: 7 dias.'},
+    {nome:'Kasugamicina (Kasumin)',dose:'1,0-2,0 mL/L',obs:'Antibiotico agricola. Uso restrito. Carencia: 7 dias. Excelente para mancha bacteriana do tomate.'},
+    {nome:'Cobre + Mancozebe (Cuprozeb)',dose:'3,0-4,0 g/L',obs:'Combinacao preventiva de amplo espectro. Boa opcao economica. Carencia: 7 dias.'},
+    {nome:'Estreptomicina + Oxitetraciclina (Agrimicin)',dose:'2,0 g/L',obs:'Antibiotico agricola. Para cancro bacteriano e fogo bacteriano. Uso restrito — exige RT.'}
+   ]},
+  {id:'virus',nome:'Viroses (TYLCV, ToSRV, Geminivirus)',cat:'doenca',
+   defensivos:[
+    {nome:'SEM CURA QUIMICA — Controle pelo vetor',dose:'—',obs:'Nao existe fungicida ou bactericida para virus. CONTROLE: eliminar plantas doentes imediatamente. Controlar mosca-branca e tripes com neonicotinoides sistemicos (imidacloprido drench, tiametoxam). Usar sementes certificadas e mudas sadias.'},
+    {nome:'Imidacloprido drench (preventivo)',dose:'2-3 mL/planta na base',obs:'Aplicar no transplantio e a cada 21 dias. Impede que vetores transmitam o virus. Essencial em areas de alta pressao.'},
+    {nome:'Oleo mineral + inseticida (mistura)',dose:'5 mL/L oleo + inseticida',obs:'Barreira fisica que dificulta a picada do vetor. Aplicar a cada 5-7 dias. Especialmente util na fase de pegamento.'}
+   ]},
+  {id:'doenca-solo',nome:'Doencas de Solo (Pythium, Rhizoctonia)',cat:'doenca',
+   defensivos:[
+    {nome:'Metalaxil-M + Fludioxonil (Maxim XL)',dose:'100 mL/100 kg semente',obs:'Tratamento de semente. Protecao ampla contra Pythium, Fusarium e Rhizoctonia. Essencial em solos umidos de RR.'},
+    {nome:'Iprodiona (Rovral)',dose:'1,0-2,0 g/L',obs:'Dicarboximida. Controle de Rhizoctonia e Botrytis. Aplicar no solo antes do plantio.'},
+    {nome:'Tiofanato-metilico (Cercobin)',dose:'1,0-1,5 g/L',obs:'Benzimidazol sistemico. Controla Fusarium e Rhizoctonia. Carencia: 14-21 dias.'},
+    {nome:'Trichoderma harzianum (Trichodermil)',dose:'Conforme rotulo',obs:'Controle biologico. Coloniza a rizosfera e impede patogenos de solo. Compativel com producao sustentavel. Aplicar via solo no plantio.'}
+   ]}
+];
+
+function buildPragaLista(){
+  var c=g('praga-lista');
+  if(!c)return;
+  var h='<div style="font-size:11px;color:#64748b;margin-bottom:6px;font-weight:700">PRAGAS</div>';
+  PRAGAS.filter(function(p){return p.cat==='praga';}).forEach(function(p){
+    h+='<button class="praga-btn" data-id="'+p.id+'">'+p.nome+'</button>';
+  });
+  h+='<div style="font-size:11px;color:#64748b;margin:10px 0 6px;font-weight:700">DOENCAS</div>';
+  PRAGAS.filter(function(p){return p.cat==='doenca';}).forEach(function(p){
+    h+='<button class="praga-btn" data-id="'+p.id+'">'+p.nome+'</button>';
+  });
+  c.innerHTML=h;
+  var btns=c.querySelectorAll('.praga-btn');
+  for(var i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function(){showPraga(this.getAttribute('data-id'));});
+  }
+}
+
+function showPraga(id){
+  var p=PRAGAS.find(function(x){return x.id===id;});
+  if(!p)return;
+  document.querySelectorAll('.praga-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.praga-btn').forEach(function(b){if(b.textContent===p.nome)b.classList.add('active');});
+  var h='<div style="font-size:14px;font-weight:700;color:#4ade80;margin-bottom:12px">'+p.nome+'</div>';
+  p.defensivos.forEach(function(d){
+    h+='<div class="def-card">'
+      +'<div class="def-nome">'+d.nome+'</div>'
+      +'<div class="def-dose">📏 Dose: '+d.dose+'</div>'
+      +'<div class="def-obs">'+d.obs+'</div>'
+      +'</div>';
+  });
+  g('praga-detalhe').innerHTML=h;
+}
+
+// ══════════════ INIT EXTRAS ══════════════
+function initExtras(){
+  buildMicroCards();
+  calcGesso();
+  calcDose();
+  calcCova();
+  buildPragaLista();
+}
+
+// Override showTab to trigger extras
+var _origShowTab=showTab;
+showTab=function(id){
+  _origShowTab(id);
+  if(id==='micro')buildMicroCards();
+  if(id==='gessagem')calcGesso();
+  if(id==='calcdose'){calcDose();calcCova();}
+  if(id==='receituario')buildPragaLista();
+};
+
+// Init
+calc();
+initExtras();
+</script>
+<!-- ══════════════════════════════════════════════════ PDF REPORT (só aparece na impressão) -->
+<div id="pdf-report" style="display:none">
+
+  <!-- Cabeçalho do laudo -->
+  <div class="pdf-header">
+    <div style="display:flex;align-items:center">
+      <div class="pdf-logo">🌱</div>
+      <div class="pdf-header-left">
+        <h1>LAUDO DE ANÁLISE DE SOLO</h1>
+        <p>SISTEMA PROFISSIONAL — CERRADO / RORAIMA — Sousa &amp; Lobato (2004)</p>
+      </div>
+    </div>
+    <div class="pdf-header-right">
+      <div>Produtor: <strong id="pdf-agricultor">—</strong></div>
+      <div style="margin-top:3px">Propriedade: <strong id="pdf-propriedade">—</strong></div>
+      <div style="margin-top:3px">Amostra Nº: <strong id="pdf-num-amostra">—</strong></div>
+      <div style="margin-top:3px">Talhão: <strong id="pdf-nome-amostra">—</strong></div>
+      <div style="margin-top:3px">Cultura: <strong id="pdf-cultura">—</strong></div>
+      <div style="margin-top:3px;font-size:9px;color:#94a3b8" id="pdf-data"></div>
+    </div>
+  </div>
+
+  <!-- 1. DADOS DA ANÁLISE -->
+  <div class="card">
+    <div class="sec-title"><span>🧪</span><h2>Dados da Análise de Solo</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <tr style="background:#f0fdf4"><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Parâmetro</td><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Valor</td><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Unidade</td><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Status</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">pH (H₂O)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-pH-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0" id="pdf-pH-st">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Fósforo (P)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-P-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">mg/dm³</td><td style="padding:5px 8px;border:1px solid #e2e8f0" id="pdf-P-st">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Potássio (K)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-K-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td><td style="padding:5px 8px;border:1px solid #e2e8f0" id="pdf-K-st">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Cálcio (Ca²⁺)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-Ca-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td><td style="padding:5px 8px;border:1px solid #e2e8f0">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Magnésio (Mg²⁺)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-Mg-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td><td style="padding:5px 8px;border:1px solid #e2e8f0">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Alumínio (Al³⁺)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-Al-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td><td style="padding:5px 8px;border:1px solid #e2e8f0">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">H+Al</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-HpAl-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td><td style="padding:5px 8px;border:1px solid #e2e8f0">—</td></tr>
+        </table>
+      </div>
+      <div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <tr style="background:#f0fdf4"><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Parâmetro</td><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Valor</td><td style="padding:5px 8px;font-weight:700;color:#475569;border:1px solid #e2e8f0">Un.</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Areia</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-areia-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">%</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Silte</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-silte-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">%</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Argila</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-argila-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">%</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Matéria Orgânica</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-mo-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">g/dm³</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Classe Granulométrica</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;color:#1d4ed8" id="pdf-classe-val" colspan="2">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Soma de Bases (SB)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-sb-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">CTC (T)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-ctc-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">cmolc/dm³</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Saturação de Bases (V%)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-v-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">%</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Saturação de Al (m%)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-m-val">—</td><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#64748b">%</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. CALAGEM -->
+  <div class="card">
+    <div class="sec-title"><span>🪨</span><h2>Recomendação de Calagem</h2><div class="sec-title-line"></div></div>
+    <div class="grid2">
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">NC — PRNT <span id="pdf-prnt-val">—</span>% | Prof. <span id="pdf-profund-val">—</span>cm</div>
+        <div style="font-size:28px;font-weight:700;color:#166534" id="pdf-nc-val">—</div>
+        <div style="font-size:12px;color:#475569">ton/ha &nbsp;<strong id="pdf-nc-status">—</strong></div>
+      </div>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">Quantidade Total — <span id="pdf-area-val">—</span> ha</div>
+        <div style="font-size:28px;font-weight:700;color:#92400e" id="pdf-total-val">—</div>
+        <div style="font-size:12px;color:#475569">toneladas</div>
+      </div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px 12px;margin-top:10px;font-size:11px;color:#475569">
+      <strong>Fórmula:</strong> NC = ((V%des – V%atual) / 100) × CTC / (PRNT/100) × (Prof/20) × (Aplic/100)<br>
+      <span id="pdf-formula-calc" style="color:#166534;font-weight:600"></span>
+    </div>
+  </div>
+
+  <!-- 3. FÓSFORO E POTÁSSIO -->
+  <div class="card pdf-page-break">
+    <div class="sec-title"><span>🌿</span><h2>Recomendação de Fósforo (P) e Potássio (K)</h2><div class="sec-title-line"></div></div>
+    <div class="grid2" style="gap:16px">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#1d4ed8;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">▸ Fósforo</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <tr style="background:#eff6ff"><td style="padding:5px 8px;font-weight:700;color:#1e40af;border:1px solid #bfdbfe">Item</td><td style="padding:5px 8px;font-weight:700;color:#1e40af;border:1px solid #bfdbfe">Valor</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">P Atual</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;color:#1d4ed8" id="pdf-p-at">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">P Desejado</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-p-des">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Necessidade P₂O₅</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;color:#92400e" id="pdf-p2o5">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Superfosfato Triplo (45%)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-sft">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Superfosfato Simples (18%)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-ssp">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">MAP (48%)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-map">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Termofosfato (17%)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-termo">—</td></tr>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#9d174d;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">▸ Potássio</div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <tr style="background:#fdf2f8"><td style="padding:5px 8px;font-weight:700;color:#831843;border:1px solid #fbcfe8">Item</td><td style="padding:5px 8px;font-weight:700;color:#831843;border:1px solid #fbcfe8">Valor</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Sat. K Atual</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;color:#9d174d" id="pdf-k-at">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">Sat. K Desejada</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-k-des">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">K₂O a Aplicar</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700;color:#92400e" id="pdf-k2o">—</td></tr>
+          <tr style="background:#fafafa"><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">KCl (60% K₂O)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-kcl">—</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e2e8f0;color:#334155">K₂SO₄ (50% K₂O)</td><td style="padding:5px 8px;border:1px solid #e2e8f0;font-weight:700" id="pdf-kso4">—</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CULTURA -->
+  <div class="card">
+    <div class="sec-title"><span>🌾</span><h2 id="pdf-cult-title">Recomendação por Cultura</h2><div class="sec-title-line"></div></div>
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px;margin-bottom:12px">
+      <div style="font-size:11px;color:#475569;margin-bottom:4px">Adubação de Referência</div>
+      <div style="font-size:13px;font-weight:700;color:#92400e" id="pdf-adub">—</div>
+    </div>
+    <div style="font-size:12px;color:#475569;line-height:1.7;margin-bottom:10px" id="pdf-obs-cult">—</div>
+    <div class="grid3" style="gap:8px">
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px"><div style="font-size:11px;font-weight:700;color:#166534;margin-bottom:4px">NC PARA ESTA CULTURA</div><div style="font-size:20px;font-weight:700;color:#166534" id="pdf-c-nc">—</div><div style="font-size:11px;color:#475569">ton/ha</div></div>
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px"><div style="font-size:11px;font-weight:700;color:#1d4ed8;margin-bottom:4px">P₂O₅ NECESSÁRIO</div><div style="font-size:20px;font-weight:700;color:#1d4ed8" id="pdf-c-p2o5">—</div><div style="font-size:11px;color:#475569">kg/ha</div></div>
+      <div style="background:#fdf2f8;border:1px solid #fbcfe8;border-radius:8px;padding:12px"><div style="font-size:11px;font-weight:700;color:#9d174d;margin-bottom:4px">K₂O NECESSÁRIO</div><div style="font-size:20px;font-weight:700;color:#9d174d" id="pdf-c-k2o">—</div><div style="font-size:11px;color:#475569">kg/ha</div></div>
+    </div>
+  </div>
+
+  <!-- 5. RELAÇÕES IÔNICAS -->
+  <div class="card">
+    <div class="sec-title"><span>📊</span><h2>Relações Iônicas &amp; Resumo de Fertilidade</h2><div class="sec-title-line"></div></div>
+    <div class="grid3" style="gap:8px;margin-bottom:12px">
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px"><div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:3px">Ca / Mg &nbsp;<small style="color:#94a3b8">(ideal: 2–5)</small></div><div style="font-size:20px;font-weight:700;color:#1e293b" id="pdf-camg">—</div><div style="font-size:11px" id="pdf-camg-st">—</div></div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px"><div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:3px">Ca / K &nbsp;<small style="color:#94a3b8">(ideal: 10–30)</small></div><div style="font-size:20px;font-weight:700;color:#1e293b" id="pdf-cak">—</div><div style="font-size:11px" id="pdf-cak-st">—</div></div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px"><div style="font-size:11px;font-weight:700;color:#475569;margin-bottom:3px">Mg / K &nbsp;<small style="color:#94a3b8">(ideal: 3–10)</small></div><div style="font-size:20px;font-weight:700;color:#1e293b" id="pdf-mgk">—</div><div style="font-size:11px" id="pdf-mgk-st">—</div></div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <div style="border-top:1px solid #e2e8f0;padding-top:10px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#94a3b8">
+    <div>Sousa &amp; Lobato (2004) — Cerrado | Embrapa Roraima | CQFS Cerrado | Costa et al. (Apostila RR)</div>
+    <div id="pdf-rodape-data"></div>
+  </div>
+
+</div><!-- /pdf-report -->
+
+<script>
+function gerarPDF(){
+  const ag=txt('agricultor')||'Nao informado';
+  const prop=txt('propriedade')||'Nao informado';
+  const culturaNome=g('cultura-sel').value;
+  var cultura=CULTURAS.find(function(c){return c.nome===culturaNome;})||CULTURAS[22];
+  const pH=v('pH'),P=v('P'),K=v('K'),Na=v('Na'),Ca=v('Ca'),Mg=v('Mg'),Al=v('Al'),HpAl=v('HpAl');
+  const areia=v('areia'),silte=v('silte'),argila=v('argila'),mo=v('mo');
+  const area=v('area'),prnt=v('prnt'),profund=v('profund'),aplic=v('aplic');
+  const SB=Ca+Mg+K+Na, CTC=SB+HpAl;
+  const Vpct=CTC>0?(SB/CTC)*100:0, mpct=(SB+Al)>0?(Al/(SB+Al))*100:0;
+  const classeArgila=getClasseArgila(argila);
+  const vDes=cultura.vDes;
+  const NC_base=CTC>0?((vDes-Vpct)/100)*CTC:0;
+  const NC_corr=NC_base>0?NC_base/(prnt/100)*(profund/20)*(aplic/100):0;
+  const NC_final=Math.max(0,NC_corr), NC_total=NC_final*area;
+  const pDes=cultura.pDes, diffP=Math.max(0,pDes-P);
+  // CTP method - Sousa & Lobato (2004) Cerrado
+  let ctp;
+  if(argila<=15) ctp=5;
+  else if(argila<=25) ctp=8;
+  else if(argila<=35) ctp=11;
+  else if(argila<=45) ctp=17;
+  else if(argila<=55) ctp=37;
+  else ctp=70;
+  const needP2O5=diffP*ctp;
+  const SFT=needP2O5/0.45, SSP=needP2O5/0.18, MAP=needP2O5/0.48, Termo=needP2O5/0.17;
+  const kDesPerc=cultura.kDes, kAtualPerc=CTC>0?(K/CTC)*100:0;
+  const kDiffPerc=Math.max(0,kDesPerc-kAtualPerc), kAddCmol=(kDiffPerc/100)*CTC;
+  const kK2O=kAddCmol*390*1.205, KCl=kK2O/0.60, K2SO4=kK2O/0.50;
+  const caMgRel=Mg>0?Ca/Mg:0, caKRel=K>0?Ca/K:0, mgKRel=K>0?Mg/K:0;
+  const phInterp=interpretarPH(pH), pInterp=interpretarP(P,argila);
+  const ncSt=ncStatus(NC_final), kSt=kStatus(kAtualPerc);
+  const now=new Date();
+  const dataStr=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+
+  g('pdf-agricultor').textContent=ag;
+  g('pdf-propriedade').textContent=prop;
+  g('pdf-num-amostra').textContent=txt('num-amostra')||'Não informado';
+  g('pdf-nome-amostra').textContent=txt('nome-amostra')||'Não informado';
+  g('pdf-cultura').textContent=culturaNome;
+  g('pdf-data').textContent='Emitido em: '+dataStr;
+  g('pdf-rodape-data').textContent='Gerado em: '+dataStr;
+
+  g('pdf-pH-val').textContent=pH; g('pdf-pH-st').textContent=phInterp.texto;
+  g('pdf-P-val').textContent=P+' mg/dm3'; g('pdf-P-st').textContent=pInterp.nivel;
+  g('pdf-K-val').textContent=K; g('pdf-K-st').textContent=kSt.text;
+  g('pdf-Ca-val').textContent=Ca; g('pdf-Mg-val').textContent=Mg;
+  g('pdf-Al-val').textContent=Al; g('pdf-HpAl-val').textContent=HpAl;
+  g('pdf-areia-val').textContent=areia; g('pdf-silte-val').textContent=silte;
+  g('pdf-argila-val').textContent=argila; g('pdf-mo-val').textContent=mo;
+  g('pdf-classe-val').textContent=classeArgila+' — '+getTexturaNome(argila);
+  g('pdf-sb-val').textContent=fmt(SB); g('pdf-ctc-val').textContent=fmt(CTC);
+  g('pdf-v-val').textContent=fmt(Vpct,1)+'%'; g('pdf-m-val').textContent=fmt(mpct,1)+'%';
+
+  g('pdf-prnt-val').textContent=prnt; g('pdf-profund-val').textContent=profund;
+  g('pdf-nc-val').textContent=fmt(NC_final,3); g('pdf-nc-status').textContent=ncSt.text;
+  g('pdf-area-val').textContent=area; g('pdf-total-val').textContent=fmt(NC_total,2);
+  g('pdf-formula-calc').textContent='NC = (('+vDes+' - '+fmt(Vpct,1)+') / 100) x '+fmt(CTC)+' / ('+prnt+'/100) x ('+profund+'/20) x ('+aplic+'/100) = '+fmt(NC_final,3)+' t/ha';
+
+  g('pdf-p-at').textContent=P+' mg/dm3 ('+pInterp.nivel+')';
+  g('pdf-p-des').textContent=pDes+' mg/dm3';
+  g('pdf-p2o5').textContent=fmt(needP2O5,2)+' kg/ha';
+  g('pdf-sft').textContent=fmt(SFT,2)+' kg/ha';
+  g('pdf-ssp').textContent=fmt(SSP,2)+' kg/ha';
+  g('pdf-map').textContent=fmt(MAP,2)+' kg/ha';
+  g('pdf-termo').textContent=fmt(Termo,2)+' kg/ha';
+  g('pdf-k-at').textContent=fmt(kAtualPerc,2)+'% ('+kSt.text+')';
+  g('pdf-k-des').textContent=kDesPerc+'%';
+  g('pdf-k2o').textContent=fmt(kK2O,2)+' kg/ha';
+  g('pdf-kcl').textContent=fmt(KCl,2)+' kg/ha';
+  g('pdf-kso4').textContent=fmt(K2SO4,2)+' kg/ha';
+
+  g('pdf-cult-title').textContent='Recomendacao para '+culturaNome;
+  g('pdf-adub').textContent=cultura.adub;
+  g('pdf-obs-cult').textContent=cultura.obs;
+  g('pdf-c-nc').textContent=fmt(NC_final,3);
+  g('pdf-c-p2o5').textContent=fmt(needP2O5,2);
+  g('pdf-c-k2o').textContent=fmt(kK2O,2);
+
+  g('pdf-camg').textContent=fmt(caMgRel);
+  g('pdf-camg-st').textContent=(caMgRel>=2&&caMgRel<=5)?'Adequado':'Fora do Ideal (ideal: 2 a 5)';
+  g('pdf-cak').textContent=fmt(caKRel);
+  g('pdf-cak-st').textContent=(caKRel>=10&&caKRel<=30)?'Adequado':'Fora do Ideal (ideal: 10 a 30)';
+  g('pdf-mgk').textContent=fmt(mgKRel);
+  g('pdf-mgk-st').textContent=(mgKRel>=3&&mgKRel<=10)?'Adequado':'Fora do Ideal (ideal: 3 a 10)';
+
+  g('pdf-report').style.display='block';
+  setTimeout(function(){
+    window.print();
+    setTimeout(function(){ g('pdf-report').style.display='none'; }, 800);
+  }, 200);
+}
+</script>
+</body>
+</html>
